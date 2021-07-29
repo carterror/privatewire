@@ -151,6 +151,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'pass' => 'Password',
+        'passo' => 'Password Old',
+        'passv' => 'Password Vericate',
+    ],
 
 ];
