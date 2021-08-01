@@ -32,6 +32,7 @@
                           <th>Server VPN</th>
                           <th>Server DNS</th>
                           <th>Status</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -55,6 +56,14 @@
                                   @endif
                                   </a>
                             </td>
+                            <td>  <form action="{{route('users.destroy', $user)}}" method="POST">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fas fa-fw fa-trash"></i>
+                                </button>
+                              </form>
+                              </td>
                           </tr>
 
                         @endforeach

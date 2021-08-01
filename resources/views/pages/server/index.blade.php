@@ -44,6 +44,13 @@
                             <td>{{$server->nat}}</td>
                             <td>{{$server->ip}}</td>
                             <td>{{$server->port}}</td>
+                            <td>
+                              <a href="{{route('servers.show', $server)}}">
+                                  <span class="badge bg-danger">
+                                  <i class="fas fa-fw fa-square"></i>
+                                  </span>
+                                </a>
+                          </td>
                             <td>  <form action="{{route('servers.destroy', $server)}}" method="POST">
                               @csrf
                               @method('DELETE')

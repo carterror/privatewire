@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+
+    public $bin = "wgtool /etc/wireguard/"; 
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('type', 0)->with(['server'])->paginate(2);
+        $users = User::where('type', 0)->with(['server'])->paginate(9);
 
         return view('pages.user.index', compact('users'));
     }
@@ -44,34 +46,35 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "name" => "required|unique:users",
+            "email" => "required|unique:users",
             "pass" => "required",
             "passv" => "required|same:pass",
             "dns" => "required|ip",
             "server_id" => "required"
         ]);
 
-        $command=public_path('wgtool/wgtool');
-        $out="ads";
+        
+        $server = Server::find($request->server_id);
 
-        exec($command, $out, $r);
+        $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($request->email));
 
+        if (!File::exists($archivo)) {
+            mkdir($archivo);
+        }
+        
+
+        //return $bin." adduser ".Str::slug($server->name)." /home/vagrant/www/privatewire/public/serverslist/".Str::slug($server->name)."/".Str::slug($request->name)."/ ".$request->name." ".$request->dns;
+        exec($this->bin." adduser ".$server->name." ./serverslist/".Str::slug($server->name)."/".Str::slug($request->email)."/ ".$request->email." ".$request->dns, $r);
+                //  adduser      wgX.conf      /dir-for-user-profile                                                                                bill                8.8.8.8        
+       
         if (!$r) {
             
             User::create([
-                'email' => $request->name,
+                'email' => $request->email,
                 'password' => Hash::make($request->pass),
                 'server_id' => $request->server_id,
                 'dns' => $request->dns
             ]);
-
-            $server = Server::find($request->server_id);
-
-            $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($request->name));
-
-            if (!File::exists($archivo)) {
-                mkdir($archivo);
-            }
 
             return redirect()->route('users.index')->with(['type' => 'success'])->with(['message' => 'User created']);
 
@@ -89,13 +92,19 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $server = Server::find($user->server_id);
         if($user->status){
             $user->status = 0;
             $msg= 'Disable';
+            $action = 'useroff';
         }else {
             $user->status = 1;
             $msg= 'Active';
+            $action = 'useron';
         }
+
+        exec($this->bin." ".$action." ".$server->name." ".$user->email, $r);
+        //                   useron      wgX.conf            bill
 
         if ($user->save()) {
             return back()->with(['type' => 'error'])->with(['message' => $user->email.', status, '.$msg]);
@@ -148,8 +157,24 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $server = Server::find($user->server_id);
+
+        $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email));
+
+
+        exec($this->bin." deluser ".$server->name." ".$user->email, $r);
+        //           deluser      wgX.conf              bill
+        
+        if ($user->delete()) {
+
+            if (File::exists($name)) {
+                File::deleteDirectory($name);
+            }
+            
+            return back()->with(['type' => 'success'])->with(['message' => 'User '.$user->email.' deleted']);
+
+        } 
     }
 }

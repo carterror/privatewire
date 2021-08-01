@@ -1,0 +1,9 @@
+● wg-quick@rara.service - WireGuard via wg-quick(8) for rara
+   Loaded: loaded (/lib/systemd/system/wg-quick@.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:wg-quick(8)
+           man:wg(8)
+           https://www.wireguard.com/
+           https://www.wireguard.com/quickstart/
+           https://git.zx2c4.com/wireguard-tools/about/src/man/wg-quick.8
+           https://git.zx2c4.com/wireguard-tools/about/src/man/wg.8

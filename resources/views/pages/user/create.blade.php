@@ -20,8 +20,8 @@
               @csrf
               <div class="card-body">
                 <div class="form-group">
-                  <label for="name">Name | Email</label>
-                  <input type="email" class="form-control" id="name" name="name" placeholder="name@gmail.com">
+                  <label for="email">Name | Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="name@gmail.com">
                 </div>
                 <div class="form-group">
                   <label for="pass">Password</label>

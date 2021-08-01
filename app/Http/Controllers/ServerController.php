@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 class ServerController extends Controller
 {
+    public $bin = "wgtool /etc/wireguard/";
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +18,7 @@ class ServerController extends Controller
      */
     public function index()
     {
-        $servers = Server::paginate(2);
+        $servers = Server::paginate(9);
         return view('pages.server.index', compact('servers'));
     }
 
@@ -41,20 +42,19 @@ class ServerController extends Controller
     {
         $request->validate([
             "name" => "required|unique:servers",
-            "ip" => "required|ip",
+            "ip" => "required",
             "port" => "required|numeric",
             "nat" => "required"
         ]);
-        
-        $archivo = public_path('serverslist/'.Str::slug($request->name));
-        
-        $command = public_path('wgtool/wgtool');
-        $out="ads";
 
-        exec($command, $out, $r);
+        $archivo = public_path('serverslist/'.Str::slug($request->name));
+
+        //exec($bin." serverop ".$request->name." status ./serverslist/".Str::slug($request->name)."/status", $r);
+
+        exec($this->bin." addserver ".$request->name." ". $request->ip." ".$request->port, $r);
 
         if (!$r) {
-            
+
             if (!File::exists($archivo)) {
                 mkdir($archivo);
             }
@@ -65,7 +65,7 @@ class ServerController extends Controller
                     'nat' => $request->nat,
                     'port' => $request->port
                 ]);
-    
+
             return redirect()->route('servers.index')->with(['type' => 'success'])->with(['message' => 'Server created']);
 
         }else{
@@ -82,11 +82,18 @@ class ServerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Server $server)
     {
-        //
+        exec($this->bin." serverop ".$server->name." ".$id." ./serverslist/".Str::slug($server->name)."/stdout.log", $r);
+        //              1 serverop  2 wgX.conf        3 (start | stop | restart | status) 4 (./stdout.log | -)
     }
 
+    public function serverop(Server $server, $id)
+    {
+        exec($this->bin." serverop ".$server->name." ".$id." ./serverslist/".Str::slug($server->name)."/stdout.log", $r);
+        //              1 serverop  2 wgX.conf        3 (start | stop | restart | status) 4 (./stdout.log | -)
+    }
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -122,6 +129,10 @@ class ServerController extends Controller
         $name = public_path('serverslist/'.Str::slug($server->name));
 
         if ($server->delete()) {
+
+
+            exec($this->bin." delserver ".$server->name, $r);
+            //           delserver     wgX.conf
 
             if (File::exists($name)) {
                 File::deleteDirectory($name);
