@@ -21,13 +21,14 @@ This softwares must be in the $PATH environment variable
 * Usage *
 
     addserver
-    ./release/wgtool /etc/wireguard addserver wgX.conf 10.0.0.1/24 12345
+    ./release/wgtool /etc/wireguard addserver wgX.conf 10.0.0.1/24 12345 1.1.1.1
     
     1 param: Directory for server configuration files
     2 param: Command name
     3 param: Filename for the server configuration Filename (must end in .conf)
     5 param: Name for the server
     6 param: Port for wireguard listening
+    7 param: Internet public server address
     
     adduser
     ./release/wgtool /etc/wireguard adduser wgX.conf /dir-for-user-profile bill 8.8.8.8
@@ -96,6 +97,13 @@ This softwares must be in the $PATH environment variable
     4 param: Server ip with range.
     5 param: Interface of the server in which the rule will be applied
     6 param: Option to be executed (add or del)
+
+Return values
+
+0 OK
+1 Error
+127 Insufficient arguments
+126 Not root effective user-id
     
     If the user may or may not create scripts to be executed when add or del is specifed
         *The file name for the add rule is wgtoolrule_add.sh

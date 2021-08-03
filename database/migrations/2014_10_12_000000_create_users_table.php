@@ -18,17 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-
-            $table->string('dns');
-            $table->Integer('status')->default('1');
             $table->Integer('type')->default('0');
-            $table->unsignedInteger('server_id')->nullable();
-            $table->foreign('server_id')->references('id')->on('servers')->onDelete('cascade');
-
             $table->rememberToken();
             $table->timestamps();
-
-
         });
     }
 

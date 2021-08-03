@@ -67,6 +67,34 @@
 @stop
 
 @section('adminlte_js')
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+    @if ($errors->any())
+    <script>
+          Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: '{{$errors->first()}}',
+          showConfirmButton: false,
+          timer: 2000
+          });
+    </script>
+    @endif
+    
+    @if(Session::has('message'))
+    <script>
+          Swal.fire({
+            position: 'top-end',
+            icon: '{{ Session::get("type") }}',
+            title: '{{ Session::get("message") }}',
+            showConfirmButton: false,
+            timer: 2000
+          });
+    </script>
+    @endif 
     @stack('js')
     @yield('js')
 @stop

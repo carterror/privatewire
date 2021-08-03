@@ -42,18 +42,24 @@ class ServerController extends Controller
     {
         $request->validate([
             "name" => "required|unique:servers",
-            "ip" => "required",
-            "port" => "required|numeric",
-            "nat" => "required"
+            "ip" => "required|ip",
+            "port" => "required|numeric|unique:servers",
+            "nat" => "required",
+            "range" => "required|unique:servers"
         ]);
+
+        if (!Str::endsWith($request->name, '.conf')) {
+            return back()->with(['type' => 'error'])->with(['message' => 'The name must end in ".conf"']);
+        }
 
         $archivo = public_path('serverslist/'.Str::slug($request->name));
 
-        //exec($bin." serverop ".$request->name." status ./serverslist/".Str::slug($request->name)."/status", $r);
+        exec($this->bin." addserver ".$request->name." ".$request->range." ".$request->port." ".$request->range, $r);
 
-        exec($this->bin." addserver ".$request->name." ". $request->ip." ".$request->port, $r);
+        exec($this->bin." serverrule ".$request->name." ".$request->range." ".$request->nat." add", $r2);
+        //                serverrule      wgX.conf            10.0.0.1/24         eth0       (add | del)
 
-        if (!$r) {
+        if (!$r && !$r2) {
 
             if (!File::exists($archivo)) {
                 mkdir($archivo);
@@ -61,6 +67,7 @@ class ServerController extends Controller
 
                 Server::create([
                     'name' => $request->name,
+                    'range' => $request->range,
                     'ip' => $request->ip,
                     'nat' => $request->nat,
                     'port' => $request->port
@@ -84,14 +91,31 @@ class ServerController extends Controller
      */
     public function show(Server $server)
     {
-        exec($this->bin." serverop ".$server->name." ".$id." ./serverslist/".Str::slug($server->name)."/stdout.log", $r);
-        //              1 serverop  2 wgX.conf        3 (start | stop | restart | status) 4 (./stdout.log | -)
+        exec($this->bin." getlog ".$server->name." ./serverslist/".Str::slug($server->name)."/server.log", $r);
+        //                getlog    wgX.conf        /etc/somedir/logfile
+
+        $filename = public_path('serverslist/'.Str::slug($server->name).'/server.log');
+
+        return view('pages.server.status',compact('filename', 'server'));
     }
 
     public function serverop(Server $server, $id)
     {
+        // exec("/usr/bin/wgtool /etc/wireguard/"." serverop wg1.conf start ./stdout.log", $r);
+        // return dd($r);
         exec($this->bin." serverop ".$server->name." ".$id." ./serverslist/".Str::slug($server->name)."/stdout.log", $r);
-        //              1 serverop  2 wgX.conf        3 (start | stop | restart | status) 4 (./stdout.log | -)
+              //        1 serverop  2 wgX.conf        3 (start | stop | restart | status) 4 (./stdout.log | -)
+
+        $filename = public_path('serverslist/'.Str::slug($server->name).'/stdout.log');
+
+        if ($id=="status") {
+            return view('pages.server.status',compact('filename', 'server'));
+        } else {
+            return back()->with(['type' => 'info'])->with(['message' => 'Server '.$server->name.' '.$id]);
+        }
+        
+        
+
     }
     
     /**
@@ -130,7 +154,10 @@ class ServerController extends Controller
 
         if ($server->delete()) {
 
+            $this->serverop($server, 'stop');
 
+            exec($this->bin." serverrule ".$server->name." ".$server->ip." ".$server->nat." del", $r);
+            //              serverrule      wgX.conf            10.0.0.1/24         eth0        (add | del)
             exec($this->bin." delserver ".$server->name, $r);
             //           delserver     wgX.conf
 

@@ -87,7 +87,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => true,
@@ -251,7 +251,7 @@ return [
         [
             'text'        => 'Home',
             'url'         => 'home',
-            'icon'        => 'far fa-fw fa-file',
+            'icon'        => 'fas fa-fw fa-home',
             // 'label'       => 4,
             // 'label_color' => 'success',
         ],
@@ -261,16 +261,16 @@ return [
             'url'  => 'users/0/edit',
             'icon' => 'fas fa-fw fa-lock',
         ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
+        // [
+        //     'text'    => 'multilevel',
+        //     'icon'    => 'fas fa-fw fa-share',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'level_one',
+        //             'url'  => '#',
+        //         ],
+        //     ],
+        // ],
         ['header' => 'SERVERS VPN'],
         [
             'text' => 'Servers',

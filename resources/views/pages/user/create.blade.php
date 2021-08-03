@@ -31,26 +31,9 @@
                   <label for="passv">Password Verification</label>
                   <input type="password" class="form-control" id="passv" name="passv">
                 </div>
-                <div class="form-group">
-                  <label for="dns">Server DNS</label>
-                  <input type="text" class="form-control" id="dns" name="dns" placeholder="8.8.8.8">
-                </div>
-                <div class="form-group">
-                  <label>Server VPN</label>
-                  <select class="form-control" name="server_id">
-
-                    @foreach ($servers as $server)
-
-                      <option value="{{$server->id}}">{{$server->name}}</option>
-
-                    @endforeach
-
-                  </select>
-                </div>
               </div>
 
               <!-- /.card-body -->
-
               <div class="card-footer">
                 <button type="submit" class="btn btn-danger">Create</button>
               </div>
@@ -65,29 +48,7 @@
 @stop
 
 @section('js')
-  @if ($errors->any())
-    <script>
-          Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: '{{$errors->first()}}',
-          showConfirmButton: false,
-          timer: 2000
-          });
-    </script>
-  @endif
 
-  @if(Session::has('message'))
-    <script>
-          Swal.fire({
-            position: 'top-end',
-            icon: '{{ Session::get("type") }}',
-            title: '{{ Session::get("message") }}',
-            showConfirmButton: false,
-            timer: 2000
-          });
-    </script>
-  @endif 
 @stop
 
 

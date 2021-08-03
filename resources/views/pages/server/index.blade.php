@@ -32,7 +32,9 @@
                           <th>NAT Iface</th>
                           <th>Address IP</th>
                           <th>Port</th>
-                          <th></th>
+                          <th>Status</th>
+                          <th>Log</th>
+                          <th>Delete</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -45,16 +47,41 @@
                             <td>{{$server->ip}}</td>
                             <td>{{$server->port}}</td>
                             <td>
-                              <a href="{{route('servers.show', $server)}}">
-                                  <span class="badge bg-danger">
-                                  <i class="fas fa-fw fa-square"></i>
+                              <a href="{{route('serverop', [$server, 'start'])}}" data-toggle="tooltip" data-placement="top" title="Start">
+                                  <span class="btn btn-sm btn-success">
+                                  <i class="fas fa-fw fa-play-circle"></i>
                                   </span>
                                 </a>
-                          </td>
+
+                              <a href="{{route('serverop', [$server, 'restart'])}}" data-toggle="tooltip" data-placement="top" title="Restart">
+                                  <span class="btn btn-sm btn-warning">
+                                  <i class="fas fa-fw fa-eject"></i>
+                                  </span>
+                                </a>
+
+                              <a href="{{route('serverop', [$server, 'stop'])}}" data-toggle="tooltip" data-placement="top" title="Stop">
+                                  <span class="btn btn-sm btn-danger">
+                                  <i class="fas fa-fw fa-stop"></i>
+                                  </span>
+                                </a>
+                              </td>
+                              <td>
+                              <a href="{{route('serverop', [$server, 'status'])}}" data-toggle="tooltip" data-placement="top" title="Status">
+                                  <span class="btn btn-sm btn-secondary">
+                                  <i class="fas fa-fw fa-history"></i>
+                                  </span>
+                                </a>
+
+                              <a href="{{route('servers.show', $server)}}" data-toggle="tooltip" data-placement="top" title="Get Log">
+                                  <span class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-fw fa-file"></i>
+                                  </span>
+                                </a>
+                            </td>
                             <td>  <form action="{{route('servers.destroy', $server)}}" method="POST">
                               @csrf
                               @method('DELETE')
-                              <button type="submit" class="btn btn-sm btn-danger">
+                              <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
                                 <i class="fas fa-fw fa-trash"></i>
                                 </button>
                               </form>
@@ -80,27 +107,5 @@
 @stop
 
 @section('js')
-@if ($errors->any())
-<script>
-      Swal.fire({
-      position: 'top-end',
-      icon: 'error',
-      title: '{{$errors->first()}}',
-      showConfirmButton: false,
-      timer: 2000
-      });
-</script>
-@endif
 
-@if(Session::has('message'))
-<script>
-      Swal.fire({
-        position: 'top-end',
-        icon: '{{ Session::get("type") }}',
-        title: '{{ Session::get("message") }}',
-        showConfirmButton: false,
-        timer: 2000
-      });
-</script>
-@endif 
 @stop

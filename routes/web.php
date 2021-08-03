@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HubController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,10 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::get('servers/{server}/{id}', [ServerController::class, 'serverop'])->name('serverop');
+
 Route::resource('servers', ServerController::class);
 
 Route::resource('users', UserController::class);
+
+Route::resource('hubs', HubController::class);

@@ -3,7 +3,7 @@
 @section('title', 'Servers')
 
 @section('content_header')
-    <h1>Create Servers</h1>
+    <h1>Create Hub</h1>
 @stop
 
 @section('content')
@@ -12,34 +12,36 @@
         <div class="col-md-12">
           <div class="card card-danger">
             <div class="card-header">
-              <h3 class="card-title">Create Servers</h3>
+              <h3 class="card-title">Create Hub of <b>{{$user->email}}</b></h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{route('servers.store')}}" method="POST">
+            <form action="{{route('hubs.update', $user->id)}}" method="POST">
               @csrf
+              @method('PUT')
               <div class="card-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="server">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="name">
                 </div>
                 <div class="form-group">
-                  <label for="range">Address IP</label>
-                  <input type="text" class="form-control" id="range" name="range" placeholder="192.168.0.1/24">
+                  <label for="dns">Server DNS</label>
+                  <input type="text" class="form-control" id="dns" name="dns" placeholder="8.8.8.8">
                 </div>
                 <div class="form-group">
-                  <label for="ip">Public IP</label>
-                  <input type="text" class="form-control" id="ip" name="ip" placeholder="192.168.0.1">
-                </div>
-                <div class="form-group">
-                  <label for="port">Port</label>
-                  <input type="number" class="form-control" id="port" name="port" placeholder="3333">
-                </div>
-                <div class="form-group">
-                  <label for="nat">NAT Iface</label>
-                  <input type="text" class="form-control" id="nat" name="nat" placeholder="Eth0">
+                  <label>Server VPN</label>
+                  <select class="form-control" name="server_id">
+
+                    @foreach ($servers as $server)
+
+                      <option value="{{$server->id}}">{{$server->name}}</option>
+
+                    @endforeach
+
+                  </select>
                 </div>
               </div>
+
               <!-- /.card-body -->
 
               <div class="card-footer">

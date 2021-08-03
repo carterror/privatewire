@@ -15,7 +15,7 @@
     8 | (value >> 8 & 0xFF) << 16 | (value & 0xFF) << 24;
 
 #define STDSTR 256
-#define PATH "/bin/:/sbin/:/usr/bin/:/usr/sbin:"
+#define PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 #define LOGIPPOOL "Error creating IPv4 pool"
 #define LOGGETIP "Error getting new IPv4"
 #define LOGEXEC "Error executing binary"
@@ -34,6 +34,7 @@
     "it manually. "
 #define USRTOKSTART "#USRLIST Users list start.\n\n"
 #define PUBKEYTOK "#PUBKEY "
+#define PUBADDRTOK "#PUBADDR "
 #define KEYLEN 1024
 #define LSTRLEN 8192
 #define BIGBUFLEN 1024 * 1024
@@ -58,6 +59,7 @@
 #define SRVRULEDEL_BIN "wgtoolrule_del.sh"
 #define RC_FAIL 1
 #define RC_INARG 127
+#define RC_EUID 126
 #define CMD_ADDSRV "addserver"
 #define CMD_LOGADDSRV_INIT "Staring addserver commmand"
 #define CMD_LOGADDSRV_ENDE "Ending addserver command with errors"
@@ -93,7 +95,8 @@ static int excmd(const char *bin, char **argv, char *out, size_t outsz,
     char *in, size_t insz);
 static int addusr(const char *srvnam, const char *dir, const char *usr, 
     const char *dns);
-static int addsrv(const char *srvnam, const char *addr, const char *port);
+static int addsrv(const char *srvnam, const char *addr, const char *port,
+    const char *pubaddr);
 static int svippool(const char *path, const char *ip);
 static int isbigendian(void);
 static int getsrvvalue(const char *path, const char *tok, char *out);
@@ -123,14 +126,16 @@ int main(int argc, char **argv)
 {
     if (argc < 3)
         return RC_INARG;
-    setenv("PATH", PATH, 1);
+    if (geteuid() != 0)
+        return RC_EUID;
+    setuid(0);
     strcpy(wgdir, *(argv + 1));
-    strcat(wgdir, "/");
+    setenv("PATH", PATH, 1);
     if (!strcmp(*(argv + 2), CMD_ADDSRV)) {
-        if (argc < 6)
+        if (argc < 7)
             return RC_INARG;
         mklog(*(argv + 3), "main", CMD_LOGADDSRV_INIT);
-        if (addsrv(*(argv + 3), *(argv + 4), *(argv + 5)) == -1) {
+        if (addsrv(*(argv + 3), *(argv + 4), *(argv + 5), *(argv + 6)) == -1) {
             mklog(*(argv + 3), "main", CMD_LOGADDSRV_ENDE);
             return RC_FAIL;
         }
@@ -235,12 +240,12 @@ static int addusr(const char *srvnam, const char *dir, const char *usr,
     strcpy(lstr, wgdir);
     strcat(lstr, srvnam);
     char endpoint[STDSTR], srv_pubkey[LINE_MAX];
-    if (getsrvvalue(lstr, "#PUBKEY ", srv_pubkey)) {
+    if (getsrvvalue(lstr, PUBKEYTOK, srv_pubkey)) {
         mklog(srvnam, "addusr", LOGSRVVAL);
         usrcleanup(srvnam, dir, usr, &addr);
         return -1;
     }
-    if (getsrvvalue(lstr, "Address = ", endpoint)) {
+    if (getsrvvalue(lstr, PUBADDRTOK, endpoint)) {
         mklog(srvnam, "addusr", LOGSRVVAL);
         usrcleanup(srvnam, dir, usr, &addr);
         return -1;
@@ -317,7 +322,8 @@ static int addusr(const char *srvnam, const char *dir, const char *usr,
     return 0;
 }
 
-static int addsrv(const char *srvnam, const char *addr, const char *port)
+static int addsrv(const char *srvnam, const char *addr, const char *port,
+    const char *pubaddr)
 {
     char srvpath[PATH_MAX], tmp[PATH_MAX];
     strcpy(srvpath, wgdir);
@@ -346,6 +352,9 @@ static int addsrv(const char *srvnam, const char *addr, const char *port)
     }
     strcat(lstr, PUBKEYTOK);
     strcat(lstr, pubkey);
+    strcat(lstr, PUBADDRTOK);
+    strcat(lstr, pubaddr);
+    strcat(lstr, "\n");
     strcpy(srvpath, wgdir);
     strcat(srvpath, srvnam);
     strcpy(tmp, srvpath);
@@ -357,7 +366,7 @@ static int addsrv(const char *srvnam, const char *addr, const char *port)
     }
     int slen = strlen(lstr);
     if (fwrite(lstr, 1, slen, fs) != slen) {
-        mklog(srvnam, "addusr", LOGWRFILE);
+        mklog(srvnam, "addsrv", LOGWRFILE);
         fclose(fs);
         unlink(tmp);
         return -1;
@@ -554,6 +563,8 @@ static void mklog(const char *srvnam, const char *fncnam, const char *err)
     strcat(path, srvnam);
     strcat(path, LOGEXT);
     FILE *fs = fopen(path, "a+");
+    if (!fs)
+        return;
     char log[LINE_MAX];
     time_t timer;
     char tmstr[STDSTR];
@@ -896,9 +907,9 @@ static int genzip(const char *path)
     char dst[PATH_MAX];
     strcpy(dst, path);
     strcat(dst, ZIPEXT);
-    char *argv[] = { ZIPBIN, NULL, NULL, NULL };
-    argv[1] = dst;
-    argv[2] = (char *) path;
+    char *argv[] = { ZIPBIN, "-j", NULL, NULL, NULL };
+    argv[2] = dst;
+    argv[3] = (char *) path;
     return excmd(ZIPBIN, argv, lstr, sizeof lstr, NULL, 0);
 }
 

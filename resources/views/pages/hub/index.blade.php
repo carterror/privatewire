@@ -19,7 +19,7 @@
                     </div>
                     
                     <div class="col-md-4">
-                        <a href="{{route('users.create')}}" type="button" class="btn btn-block bg-gradient-danger">New User</a>
+                        <a href="{{route('hubs.create')}}" type="button" class="btn btn-block bg-gradient-danger">New User</a>
                     </div>
                     
                 </div>
@@ -28,28 +28,39 @@
                     <table class="table table-hover text-nowrap">
                       <thead>
                         <tr>
-                          <th>Email</th>
-                          <th>Created date</th>
-                          <th>Hubs</th>
+                          <th>Name</th>
+                          <th>Server VPN</th>
+                          <th>User</th>
+                          <th>Server DNS</th>
+                          <th>Status</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($hubs as $hub)
 
                           <tr>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->created_at}}</td>
-                            <td>                              
-                              <a href="{{route('users.show', $user)}}" data-toggle="tooltip" data-placement="top" title="Hubs">
-                              <span class="btn btn-sm btn-info">
-                              <i class="fas fa-fw fa-file"></i>
-                              </span>
-                            </a></td>
-                            <td><form action="{{route('users.destroy', $user)}}" method="POST">
+                            <td>{{$hub->name}}</td>
+                            <td>{{$hub->server->name}}</td>
+                            <td>{{$hub->user->name}}</td>
+                            <td>{{$hub->dns}}</td>
+                            <td>
+                                <a href="{{route('hubs.show', $hub)}}">
+                                  @if (!$hub->status)
+                                    <span class="badge bg-danger">
+                                    <i class="fas fa-fw fa-square"></i> Desabilitado
+                                    </span>
+                                  @else
+                                    <span class="badge bg-success">
+                                      <i class="fas fa-fw fa-check-square"></i> Halibitado
+                                    </span>
+                                  @endif
+                                  </a>
+                            </td>
+                            <td>  <form action="{{route('hubs.destroy', $hub)}}" method="POST">
                               @csrf
                               @method('DELETE')
-                              <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
+                              <button type="submit" class="btn btn-sm btn-danger">
                                 <i class="fas fa-fw fa-trash"></i>
                                 </button>
                               </form>
@@ -62,7 +73,7 @@
                     </table>
                   </div>
                   <div class="card-footer">
-                    {{$users->links()}}
+                    {{$hubs->links()}}
                   </div>
             </div>
         </div>

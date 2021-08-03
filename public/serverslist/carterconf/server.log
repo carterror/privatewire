@@ -1,0 +1,39 @@
+[2021-08-02 18:02:26] Function 'main': Staring addserver commmand
+[2021-08-02 18:02:26] Function 'main': Ending addserver command sucessfully
+[2021-08-02 18:02:26] Function 'main': Staring serverrule commmand
+[2021-08-02 18:02:26] Function 'srvrule': /usr/bin/wgtoolrule_add.sh: 4: /usr/bin/wgtoolrule_add.sh: cannot create /etc/iptables/rules.v4: Directory nonexistent
+[2021-08-02 18:02:26] Function 'main': Ending serverrule command sucessfully
+[2021-08-02 18:04:38] Function 'main': Staring serverop commmand
+[2021-08-02 18:04:38] Function 'main': Ending serverop command sucessfully
+[2021-08-02 18:04:55] Function 'main': Staring serverop commmand
+[2021-08-02 18:04:56] Function 'main': Ending serverop command sucessfully
+[2021-08-02 18:07:35] Function 'main': Staring serverop commmand
+[2021-08-02 18:07:36] Function 'main': Ending serverop command sucessfully
+[2021-08-02 18:07:48] Function 'main': Staring serverop commmand
+[2021-08-02 18:07:48] Function 'main': Ending serverop command sucessfully
+[2021-08-02 18:07:55] Function 'main': Staring serverop commmand
+[2021-08-02 18:07:56] Function 'main': Ending serverop command sucessfully
+[2021-08-02 23:39:00] Function 'main': Staring adduser commmand
+[2021-08-02 23:39:00] Function 'main': Ending adduser command sucessfully
+[2021-08-02 23:39:28] Function 'main': Staring adduser commmand
+[2021-08-02 23:39:28] Function 'main': Ending adduser command sucessfully
+[2021-08-02 23:44:01] Function 'main': Staring adduser commmand
+[2021-08-02 23:44:01] Function 'main': Ending adduser command sucessfully
+[2021-08-02 23:44:23] Function 'main': Staring adduser commmand
+[2021-08-02 23:44:24] Function 'main': Ending adduser command sucessfully
+[2021-08-02 23:47:03] Function 'main': Staring useroff commmand
+[2021-08-02 23:47:03] Function 'main': Ending useroff command sucessfully
+[2021-08-02 23:48:15] Function 'main': Staring useron commmand
+[2021-08-02 23:48:15] Function 'main': Ending useron command sucessfully
+[2021-08-02 23:55:36] Function 'main': Staring useroff commmand
+[2021-08-02 23:55:36] Function 'main': Ending useroff command sucessfully
+[2021-08-02 23:55:43] Function 'main': Staring useron commmand
+[2021-08-02 23:55:43] Function 'main': Ending useron command sucessfully
+[2021-08-03 00:05:37] Function 'main': Staring serverop commmand
+[2021-08-03 00:05:37] Function 'main': Ending serverop command sucessfully
+[2021-08-03 02:19:29] Function 'main': Staring serverop commmand
+[2021-08-03 02:19:29] Function 'main': Ending serverop command sucessfully
+[2021-08-03 02:19:47] Function 'main': Staring serverop commmand
+[2021-08-03 02:19:48] Function 'main': Ending serverop command sucessfully
+[2021-08-03 02:19:53] Function 'main': Staring serverop commmand
+[2021-08-03 02:19:53] Function 'main': Ending serverop command sucessfully

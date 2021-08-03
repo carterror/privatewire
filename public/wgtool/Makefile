@@ -33,3 +33,11 @@ prepare:
 
 clean:
 	rm -R -f $(obj) $(dbg) release/obj/* debug/obj/* release/wgtool debug/wgtool
+
+install:
+	release/clean.sh
+	cp release/wgtoolrule_add.sh /usr/bin/
+	cp release/wgtoolrule_del.sh /usr/bin/
+	cp release/wgtool /usr/bin/
+	chown root:root /usr/bin/wgtool
+	chmod 4777 /usr/bin/wgtool

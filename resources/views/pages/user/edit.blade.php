@@ -50,29 +50,7 @@
 @stop
 
 @section('js')
-  @if ($errors->any())
-    <script>
-          Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: '{{$errors->first()}}',
-          showConfirmButton: false,
-          timer: 2000
-          });
-    </script>
-  @endif
 
-  @if(Session::has('message'))
-    <script>
-          Swal.fire({
-            position: 'top-end',
-            icon: '{{ Session::get("type") }}',
-            title: '{{ Session::get("message") }}',
-            showConfirmButton: false,
-            timer: 2000
-          });
-    </script>
-  @endif 
 @stop
 
 
