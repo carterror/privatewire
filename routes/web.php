@@ -20,11 +20,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('dashboard');
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', function () {
+    return redirect()->route('admin');
+});
+
+Route::get('/admin', [HomeController::class, 'index'])->name('admin');
 
 Route::get('servers/{server}/{id}', [ServerController::class, 'serverop'])->name('serverop');
 

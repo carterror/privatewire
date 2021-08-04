@@ -12,6 +12,12 @@ use Illuminate\Support\Str;
 
 class HubController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isadmin');
+    }
+
     public $bin = "wgtool /etc/wireguard/"; 
     /**
      * Display a listing of the resource.
@@ -152,7 +158,6 @@ class HubController extends Controller
         $server = Server::find($hub->server_id);
 
         $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($hub->name));
-
 
         exec($this->bin." deluser ".$server->name." ".$hub->name, $r);
         //               deluser      wgX.conf            bill

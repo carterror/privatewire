@@ -193,7 +193,7 @@ return [
     'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => null,
+    'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
     'profile_url' => false,
@@ -282,6 +282,15 @@ return [
             'route'  => 'users.index',
             'icon' => 'fas fa-fw fa-users',
         ],
+
+        ['header' => 'Global Settings'],
+        
+        [
+            'text' => 'Config',
+            'route'  => 'servers.index',
+            'icon' => 'fas fa-fw fa-sitemap',
+        ],
+
         ['header' => ''],
         ['header' => 'By GoDjango'],
     ],

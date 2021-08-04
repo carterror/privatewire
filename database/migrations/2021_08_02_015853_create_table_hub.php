@@ -21,7 +21,7 @@ class CreateTableHub extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('dns');
-            $table->Integer('status')->default('1');
+            $table->Integer('status')->default(0);
             $table->timestamps();
         });
     }

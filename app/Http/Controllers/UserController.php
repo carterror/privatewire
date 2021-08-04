@@ -14,6 +14,12 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isadmin');
+    }
+
     public $bin = "wgtool /etc/wireguard/"; 
     /**
      * Display a listing of the resource.

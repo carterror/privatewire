@@ -10,6 +10,13 @@ use Illuminate\Support\Str;
 
 class ServerController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isadmin');
+    }
+
     public $bin = "wgtool /etc/wireguard/";
     /**
      * Display a listing of the resource.
@@ -54,7 +61,7 @@ class ServerController extends Controller
 
         $archivo = public_path('serverslist/'.Str::slug($request->name));
 
-        exec($this->bin." addserver ".$request->name." ".$request->range." ".$request->port." ".$request->range, $r);
+        exec($this->bin." addserver ".$request->name." ".$request->range." ".$request->port." ".$request->ip, $r);
 
         exec($this->bin." serverrule ".$request->name." ".$request->range." ".$request->nat." add", $r2);
         //                serverrule      wgX.conf            10.0.0.1/24         eth0       (add | del)
@@ -156,10 +163,10 @@ class ServerController extends Controller
 
             $this->serverop($server, 'stop');
 
-            exec($this->bin." serverrule ".$server->name." ".$server->ip." ".$server->nat." del", $r);
-            //              serverrule      wgX.conf            10.0.0.1/24         eth0        (add | del)
+            exec($this->bin." serverrule ".$server->name." ".$server->range." ".$server->nat." del", $r);
+            //              serverrule      wgX.conf          10.0.0.1/24         eth0        (add | del)
             exec($this->bin." delserver ".$server->name, $r);
-            //           delserver     wgX.conf
+            //                delserver     wgX.conf
 
             if (File::exists($name)) {
                 File::deleteDirectory($name);
