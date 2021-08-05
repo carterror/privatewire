@@ -124,10 +124,33 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function delete($id)
     {
+        $user = User::find($id);
+        $email = $user->email;
+        $hubs = Hub::where('user_id', $user->id)->orderBy('server_id', 'asc')->get();
 
         if ($user->delete()) {
+            
+            $aux = -1;
+
+            foreach ($hubs as $hub) {
+                
+                if ($hub->server_id != $aux) {
+
+                    $aux = $hub->server_id;
+
+                    $server = Server::find($hub->server_id);
+
+                    $del = Hub::where('user_id', $user->id)->where('server_id', $server->id)->orderBy('server_id', 'asc')->count();
+
+                    $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($email));
+        
+                    if (File::exists($name)) {
+                        File::deleteDirectory($name);
+                    }
+                }
+            }
 
             return back()->with(['type' => 'success'])->with(['message' => 'User '.$user->email.' deleted']);
 

@@ -31,6 +31,7 @@
                           <th>Name</th>
                           <th>Server VPN</th>
                           <th>Server DNS</th>
+                          <th colspan="2">Expire</th>
                           <th>Status</th>
                           <th></th>
                         </tr>
@@ -42,6 +43,16 @@
                             <td>{{$hub->name}}</td>
                             <td>{{$hub->server->name}}</td>
                             <td>{{$hub->dns}}</td>
+                            <form action="{{route('billing', $hub)}}" method="POST">
+                              @csrf
+                              <td>
+                                <input class="form-control" type="date" value="{{$hub->billing}}" name="billing" style="min-width: 50px !important;">
+                              </td><td>
+                                <button type="submit" class="form-control btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Change">
+                                  <i class="fas fa-fw fa-check"></i>
+                                </button>
+                              </td>
+                            </form>
                             <td>
                                 <a href="{{route('hubs.show', $hub)}}" data-toggle="tooltip" data-placement="top" title="Change">
                                   @if (!$hub->status)
@@ -55,14 +66,11 @@
                                   @endif
                                   </a>
                             </td>
-                            <td>  <form action="{{route('hubs.destroy', $hub)}}" method="POST">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
+                            <td>
+                              <a href="{{route('hubs.delete', $hub->id)}}" class="delete btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
                                 <i class="fas fa-fw fa-trash"></i>
-                                </button>
-                              </form>
-                              </td>
+                                </a>
+                            </td>
                           </tr>
 
                         @endforeach
@@ -84,5 +92,7 @@
 @stop
 
 @section('js')
+<script>
 
+</script>
 @stop

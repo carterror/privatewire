@@ -22,6 +22,7 @@ class CreateTableHub extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('dns');
             $table->Integer('status')->default(0);
+            $table->timestamp('billing')->default(0);
             $table->timestamps();
         });
     }

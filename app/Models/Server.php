@@ -13,6 +13,7 @@ class Server extends Model
         'name',
         'ip',
         'range',
+        'hubs',
         'nat',
         'port'
     ];

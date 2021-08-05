@@ -385,6 +385,16 @@ return [
                 ],
             ],
         ],
+        'copy' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/clipboard.min.js',
+                ],
+            ],
+        ],
         'Pace' => [
             'active' => false,
             'files' => [

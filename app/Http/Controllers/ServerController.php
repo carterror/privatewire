@@ -47,6 +47,7 @@ class ServerController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             "name" => "required|unique:servers",
             "ip" => "required|ip",
@@ -58,6 +59,17 @@ class ServerController extends Controller
         if (!Str::endsWith($request->name, '.conf')) {
             return back()->with(['type' => 'error'])->with(['message' => 'The name must end in ".conf"']);
         }
+
+        $range = substr($request->range, -2);
+        if(Str::contains($range, '/')):
+            $range = substr($range, -1);
+        endif;
+
+        if ($range > 32 || $range < 0) {
+            return back()->with(['type' => 'error'])->with(['message' => 'The range ip, is incorrect']);
+        }
+
+        $ips = pow(2 ,(32-$range))-2;
 
         $archivo = public_path('serverslist/'.Str::slug($request->name));
 
@@ -77,6 +89,7 @@ class ServerController extends Controller
                     'range' => $request->range,
                     'ip' => $request->ip,
                     'nat' => $request->nat,
+                    'hubs' => $ips,
                     'port' => $request->port
                 ]);
 
@@ -154,8 +167,9 @@ class ServerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Server $server)
+    public function delete($id)
     {
+        $server = Server::find($id);
 
         $name = public_path('serverslist/'.Str::slug($server->name));
 

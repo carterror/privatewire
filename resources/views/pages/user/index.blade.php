@@ -29,6 +29,7 @@
                       <thead>
                         <tr>
                           <th>Email</th>
+                          <th>Ballance</th>
                           <th>Created date</th>
                           <th>Hubs</th>
                           <th></th>
@@ -39,6 +40,7 @@
 
                           <tr>
                             <td>{{$user->email}}</td>
+                            <td>{{$user->ballance}}</td>
                             <td>{{$user->created_at}}</td>
                             <td>                              
                               <a href="{{route('users.show', $user)}}" data-toggle="tooltip" data-placement="top" title="Hubs">
@@ -46,13 +48,10 @@
                               <i class="fas fa-fw fa-file"></i>
                               </span>
                             </a></td>
-                            <td><form action="{{route('users.destroy', $user)}}" method="POST">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
+                            <td>
+                              <a href="{{route('users.delete', $user->id)}}" class="delete btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
                                 <i class="fas fa-fw fa-trash"></i>
-                                </button>
-                              </form>
+                              </a>
                               </td>
                           </tr>
 
@@ -75,5 +74,4 @@
 @stop
 
 @section('js')
-
 @stop

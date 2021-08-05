@@ -49,7 +49,17 @@ class HubController extends Controller
      */
     public function store(Request $request)
     {
+        $date = date('Y-m-d H:i:s', strtotime('-'.$f->store->timefactura.' Minutes'));
+    }
 
+    public function billing(Request $request, Hub $hub)
+    {
+        $hub->billing = $request->billing;
+
+        if ($hub->save()) {
+            return back()->with(['type' => 'success'])->with(['message' => 'Expire update']);;
+        }
+        
     }
 
     /**
@@ -140,7 +150,10 @@ class HubController extends Controller
                 'dns' => $request->dns
             ]);
 
-            return redirect()->route('users.show', $user)->with(['type' => 'success'])->with(['message' => 'User created']);
+            $server->hubs--;
+            $server->save();
+
+            return redirect()->route('users.show', $user)->with(['type' => 'success'])->with(['message' => 'Hub created']);
 
         }else{
             return back()->with(['type' => 'error'])->with(['message' => 'Error']);
@@ -153,16 +166,23 @@ class HubController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Hub $hub)
+    public function delete($id)
     {
+        $hub = Hub::find($id);
+
         $server = Server::find($hub->server_id);
 
-        $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($hub->name));
+        $user = User::find($hub->user_id);
+
+        $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($hub->name));
 
         exec($this->bin." deluser ".$server->name." ".$hub->name, $r);
         //               deluser      wgX.conf            bill
         
         if ($hub->delete()) {
+
+            $server->hubs++;
+            $server->save();
 
             if (File::exists($name)) {
                 File::deleteDirectory($name);

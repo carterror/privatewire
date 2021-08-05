@@ -32,6 +32,7 @@
                           <th>NAT Iface</th>
                           <th>Address IP</th>
                           <th>Port</th>
+                          <th>Hubs</th>
                           <th>Status</th>
                           <th>Log</th>
                           <th>Delete</th>
@@ -46,6 +47,7 @@
                             <td>{{$server->nat}}</td>
                             <td>{{$server->ip}}</td>
                             <td>{{$server->port}}</td>
+                            <td>{{$server->hubs}}</td>
                             <td>
                               <a href="{{route('serverop', [$server, 'start'])}}" data-toggle="tooltip" data-placement="top" title="Start">
                                   <span class="btn btn-sm btn-success">
@@ -78,13 +80,10 @@
                                   </span>
                                 </a>
                             </td>
-                            <td>  <form action="{{route('servers.destroy', $server)}}" method="POST">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
+                            <td>
+                              <a href="{{route('servers.delete', $server->id)}}" class="delete btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete">
                                 <i class="fas fa-fw fa-trash"></i>
-                                </button>
-                              </form>
+                              </a>
                               </td>
                           </tr>
 
