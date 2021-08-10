@@ -19,8 +19,10 @@ class CreateTableServers extends Migration
             $table->string('range');
             $table->string('ip');
             $table->integer('port');
+            $table->Integer('status')->default(1);
             $table->integer('hubs');
             $table->string('nat');
+            $table->string('loc');
             $table->timestamps();
         });
     }

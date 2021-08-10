@@ -15,6 +15,8 @@ class Server extends Model
         'range',
         'hubs',
         'nat',
+        'loc',
+        'status',
         'port'
     ];
 }

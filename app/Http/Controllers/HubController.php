@@ -18,7 +18,9 @@ class HubController extends Controller
         $this->middleware('isadmin');
     }
 
-    public $bin = "wgtool /etc/wireguard/"; 
+    public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
+    public $path = "/var/wgtool/";
+    public $dns = "localhost"; // Hosting prueba
     /**
      * Display a listing of the resource.
      *
@@ -49,7 +51,7 @@ class HubController extends Controller
      */
     public function store(Request $request)
     {
-        $date = date('Y-m-d H:i:s', strtotime('-'.$f->store->timefactura.' Minutes'));
+        //$date = date('Y-m-d H:i:s', strtotime('-'.$f->store->timefactura.' Minutes'));
     }
 
     public function billing(Request $request, Hub $hub)
@@ -81,8 +83,10 @@ class HubController extends Controller
             $action = 'useron';
         }
 
-        exec($this->bin." ".$action." ".$server->name." ".$hub->name, $r);
-        //                   useron      wgX.conf            bill
+        $host = " ".$this->dns." wgtool /etc/wireguard/";
+
+        exec($this->bin.$host." ".$action." ".$server->name." ".$hub->name, $r);
+        //                         useron      wgX.conf            bill
 
         if ($hub->save()) {
             return back()->with(['type' => 'info'])->with(['message' => $hub->name.', status, '.$msg]);
@@ -137,18 +141,27 @@ class HubController extends Controller
             mkdir($archivo);
         }
 
-      //return $this->bin." adduser ".$server->name." ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/ ".$request->name." ".$request->dns;
-        exec($this->bin." adduser ".$server->name." ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/ ".$request->name." ".$request->dns, $r);
-                    //    adduser      wgX.conf      /dir-for-user-profile                                                                                        bill             8.8.8.8        
+        exec($this->bin." ".$this->dns." mkdir -p ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name), $r);
+
+        $host = " ".$this->dns." wgtool /etc/wireguard/";
+
+        exec($this->bin.$host." adduser ".$server->name." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/ ".$request->name." ".$request->dns, $r);
+                        //    adduser      wgX.conf         /dir-for-user-profile                                                                        bill             8.8.8.8  
+        $getfile = " ".$this->dns." build-in:getfile";
+        // return dd($r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip", $r);
 
         if (!$r) {
 
-            Hub::create([
+            $hub = Hub::create([
                 'name' => $request->name,
                 'server_id' => $request->server_id,
                 'user_id' => $user->id,
                 'dns' => $request->dns
             ]);
+
+            $this->show($hub);
 
             $server->hubs--;
             $server->save();
@@ -176,8 +189,10 @@ class HubController extends Controller
 
         $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($hub->name));
 
-        exec($this->bin." deluser ".$server->name." ".$hub->name, $r);
-        //               deluser      wgX.conf            bill
+        $host = " ".$this->dns." wgtool /etc/wireguard/";
+
+        exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
+        //                deluser      wgX.conf            bill
         
         if ($hub->delete()) {
 

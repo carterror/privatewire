@@ -40,7 +40,7 @@ class Expire extends Command
     public function handle()
     {
 
-        $bin = "wgtool /etc/wireguard/";
+        $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
         $hubs = Hub::with(['server'])->where('status', '1')->get();
 
         foreach ($hubs as $hub) {
@@ -52,10 +52,14 @@ class Expire extends Command
 
                 if ($h->save()) {
 
-                    exec($bin." useroff ".$h->server->name." ".$h->name, $r);
+                    $dns = "localhost"; //prueba
+
+                    $host = " ".$dns." wgtool /etc/wireguard/";
+
+                    exec($bin.$host." useroff ".$h->server->name." ".$h->name, $r);           
                     //          useroff      wgX.conf            bill
 
-                    $texto = "[".date('Y-m-d H:i:s')."]: Expire hub - ".$h->name;
+                    $texto = "[".date('Y-m-d H:i:s')."]: Expire hub - ".$h->server->name." -> ".$h->name;
 
                     Storage::append("expire.log", $texto);
 

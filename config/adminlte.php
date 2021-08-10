@@ -287,7 +287,7 @@ return [
         
         [
             'text' => 'Config',
-            'route'  => 'servers.index',
+            'route'  => 'settings.index',
             'icon' => 'fas fa-fw fa-sitemap',
         ],
 

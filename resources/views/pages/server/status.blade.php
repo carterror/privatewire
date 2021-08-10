@@ -15,7 +15,7 @@
                 <div class="card-header row">
                     
                     <div class="col-md-8">
-                        {!! __('Server <b>'.$server->name.'</b> status') !!}
+                        {!! __('Server <b>'.$server.'</b> status') !!}
                     </div>
                     
                 </div>

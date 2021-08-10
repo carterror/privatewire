@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hub;
+use App\Models\Server;
+use App\Models\Tx;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -14,9 +20,11 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('isadmin');
+        $this->middleware('verified');  
     }
-
+    public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
+    public $path = "/var/wgtool/";
+    public $dns = "localhost"; // Hosting prueba
     /**
      * Show the application dashboard.
      *
@@ -26,4 +34,120 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function client()
+    {
+        $profiles = Hub::with(['server'])->where('user_id', Auth::user()->id)->get();
+
+        $locations = Server::where('hubs', '>', 0)->where('status', 1)->distinct('loc')->select('loc')->get();
+
+        return view('client.index', compact('profiles', 'locations'));
+    }
+
+    public function addfunds(Request $request)
+    {
+
+        $request->validate([
+            'tx' => 'required',
+        ]);
+
+        Tx::create([
+            'email_user' => Auth::user()->email,
+            'tx' => $request->tx,
+        ]);
+
+        return back()->with(['type' => 'success'])->with(['message' => 'As soon as your transaction is validated, the founds you sent will be available']);
+
+    }
+    
+    
+    public function profile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'loc' => 'required',
+        ]);
+
+        $server = Server::where('loc', $request->loc)->where('hubs', '>', 1)->where('status', 1);
+        
+        if ($server->count()) {
+
+            $server = $server->first();
+
+            $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug(Auth::user()->email));
+
+            if (!File::exists($archivo)) {
+                mkdir($archivo);
+            }
+    
+            $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($request->name));
+    
+            if (!File::exists($archivo)) {
+                mkdir($archivo);
+            }
+    
+            exec($this->bin." ".$this->dns." mkdir -p ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name), $r1);
+    
+            $host = " ".$this->dns." wgtool /etc/wireguard/";
+    
+            exec($this->bin.$host." adduser ".$server->name." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/ ".$request->name." 8.8.8.8", $r2);
+                            //    adduser      wgX.conf         /dir-for-user-profile   bill             8.8.8.8  
+            exec($this->bin.$host." useroff ".$server->name." ".$request->name, $r5);
+                                                                                                                    
+            $getfile = " ".$this->dns." build-in:getfile";
+            // return dd($r);
+            exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./serverslist/".Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r3);
+            exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip ./serverslist/".Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip", $r4);
+            
+
+            if (!$r1 && !$r2 && !$r3 && !$r4 && !$r5) {
+
+                Hub::create([
+                    'name' => $request->name,
+                    'server_id' => $server->id,
+                    'user_id' => Auth::user()->id,
+                    'dns' => '8.8.8.8'
+                ]);
+    
+                return back()->with(['type' => 'success'])->with(['message' => 'Profile created successfully']);
+
+            }else {
+
+                return back()->with(['type' => 'error'])->with(['message' => 'If you see this message gor long time, get in touch with tecnical support']);
+            
+            }
+        } else {
+
+            return back()->with(['type' => 'error'])->with(['message' => 'Profiles exhausted in that location']);
+        }
+
+    }
+
+    public function active(Request $request, $id)
+    {
+        $request->validate([
+            'mounts' => 'required',
+        ]);
+
+        $hub = Hub::with(['server'])->findorfail($id);
+
+        $date = date('Y-m-d', strtotime('+ '.$request->mounts.' Month'));
+
+        $hub->billing = $date;
+        $hub->status = 1;
+
+        $host = " ".$this->dns." wgtool /etc/wireguard/";
+
+        exec($this->bin.$host." useron ".$hub->server->name." ".$hub->name, $r);
+
+        if (!$r) {
+            if ($hub->save()) {
+                return back()->with(['type' => 'success'])->with(['message' => 'Profile activated']);
+            }
+        }else {
+            return back()->with(['type' => 'error'])->with(['message' => 'If you see this message gor long time, get in touch with tecnical support']);
+        }
+            
+    }
+
 }

@@ -1,0 +1,21 @@
+[2021-08-04 22:25:26] Function 'main': Staring addserver commmand
+[2021-08-04 22:25:26] Function 'main': Ending addserver command sucessfully
+[2021-08-04 22:25:26] Function 'main': Staring serverrule commmand
+[2021-08-04 22:25:26] Function 'srvrule': 
+[2021-08-04 22:25:26] Function 'main': Ending serverrule command sucessfully
+[2021-08-04 22:28:45] Function 'main': Staring adduser commmand
+[2021-08-04 22:28:45] Function 'main': Ending adduser command sucessfully
+[2021-08-04 23:04:37] Function 'main': Staring useron commmand
+[2021-08-04 23:04:37] Function 'main': Ending useron command sucessfully
+[2021-08-04 23:40:08] Function 'main': Staring useroff commmand
+[2021-08-04 23:40:08] Function 'main': Ending useroff command sucessfully
+[2021-08-08 17:42:18] Function 'main': Staring useron commmand
+[2021-08-08 17:42:18] Function 'main': Ending useron command sucessfully
+[2021-08-08 17:43:10] Function 'main': Staring useroff commmand
+[2021-08-08 17:43:10] Function 'main': Ending useroff command sucessfully
+[2021-08-08 18:08:35] Function 'main': Staring serverop commmand
+[2021-08-08 18:08:35] Function 'main': Ending serverop command sucessfully
+[2021-08-08 18:09:29] Function 'main': Staring serverop commmand
+[2021-08-08 18:09:29] Function 'main': Ending serverop command sucessfully
+[2021-08-08 18:09:43] Function 'main': Staring serverop commmand
+[2021-08-08 18:09:43] Function 'main': Ending serverop command sucessfully

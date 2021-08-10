@@ -1,0 +1,20 @@
+wg-quick@carter: unrecognized service
+d via wg-quick(8) for carter
+   Loaded: loaded (/lib/systemd/system/wg-quick@.service; indirect; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:wg-quick(8)
+           man:wg(8)
+           https://www.wireguard.com/
+           https://www.wireguard.com/quickstart/
+           https://git.zx2c4.com/wireguard-tools/about/src/man/wg-quick.8
+           https://git.zx2c4.com/wireguard-tools/about/src/man/wg.8
+
+Aug 08 00:16:34 homestead systemd[1]: Starting WireGuard via wg-quick(8) for carter...
+Aug 08 00:16:34 homestead wg-quick[6616]: [#] ip link add carter type wireguard
+Aug 08 00:16:34 homestead wg-quick[6616]: [#] wg setconf carter /dev/fd/63
+Aug 08 00:16:34 homestead wg-quick[6616]: [#] ip -4 address add 10.0.0.1/24 dev carter
+Aug 08 00:16:34 homestead wg-quick[6616]: [#] ip link set mtu 1420 up dev carter
+Aug 08 00:16:34 homestead systemd[1]: Started WireGuard via wg-quick(8) for carter.
+Aug 08 00:17:48 homestead systemd[1]: Stopping WireGuard via wg-quick(8) for carter...
+Aug 08 00:17:48 homestead wg-quick[6776]: [#] ip link delete dev carter
+Aug 08 00:17:48 homestead systemd[1]: Stopped WireGuard via wg-quick(8) for carter.

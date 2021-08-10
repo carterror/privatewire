@@ -11,6 +11,11 @@
 @section('adminlte_css')
     @stack('css')
     @yield('css')
+    <style>
+        body{
+            background: url("{{ asset('img/bg-masthead.jpg') }}") !important;
+        }
+    </style>
 @stop
 
 @section('classes_body'){{ ($auth_type ?? 'login') . '-page' }}@stop
@@ -19,8 +24,8 @@
     <div class="{{ $auth_type ?? 'login' }}-box">
 
         {{-- Logo --}}
-        <div class="{{ $auth_type ?? 'login' }}-logo">
-            <a href="{{ $dashboard_url }}">
+        <div class="{{ $auth_type ?? 'login' }}-logo" style="background-color: rgba(165, 0, 0, 0.212); border-radius: 5px;">
+            <a href="{{ $dashboard_url }}" style=" color: #fff;">
                 <img src="{{ asset(config('adminlte.logo_img')) }}" height="50">
                 {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
             </a>

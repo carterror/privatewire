@@ -39,6 +39,10 @@
                   <label for="nat">NAT Iface</label>
                   <input type="text" class="form-control" id="nat" name="nat" placeholder="Eth0">
                 </div>
+                <div class="form-group">
+                  <label for="loc">Location</label>
+                  <input type="text" class="form-control" id="loc" name="loc" placeholder="New Jersey">
+                </div>
               </div>
               <!-- /.card-body -->
 

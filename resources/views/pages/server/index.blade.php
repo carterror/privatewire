@@ -34,6 +34,7 @@
                           <th>Port</th>
                           <th>Hubs</th>
                           <th>Status</th>
+                          <th>Actions</th>
                           <th>Log</th>
                           <th>Delete</th>
                         </tr>
@@ -48,6 +49,19 @@
                             <td>{{$server->ip}}</td>
                             <td>{{$server->port}}</td>
                             <td>{{$server->hubs}}</td>
+                            <td>
+                              <a href="{{route('servers.edit', $server->id)}}">
+                                @if (!$server->status)
+                                  <span class="badge bg-danger">
+                                  <i class="fas fa-fw fa-square"></i> Desabilitado
+                                  </span>
+                                @else
+                                  <span class="badge bg-success">
+                                    <i class="fas fa-fw fa-check-square"></i> Halibitado
+                                  </span>
+                                @endif
+                                </a>
+                            </td>
                             <td>
                               <a href="{{route('serverop', [$server, 'start'])}}" data-toggle="tooltip" data-placement="top" title="Start">
                                   <span class="btn btn-sm btn-success">
