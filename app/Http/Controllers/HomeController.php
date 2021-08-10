@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Hub;
 use App\Models\Server;
 use App\Models\Tx;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -128,24 +130,35 @@ class HomeController extends Controller
         $request->validate([
             'mounts' => 'required',
         ]);
+        $money = $request->mounts*Storage::disk('config')->get('price');
+        $user = User::findorfail(Auth::user()->id);
 
-        $hub = Hub::with(['server'])->findorfail($id);
+        if ($money < $user->ballence) {
 
-        $date = date('Y-m-d', strtotime('+ '.$request->mounts.' Month'));
+            $hub = Hub::with(['server'])->findorfail($id);
 
-        $hub->billing = $date;
-        $hub->status = 1;
+            $date = date('Y-m-d', strtotime('+ '.$request->mounts.' Month'));
 
-        $host = " ".$this->dns." wgtool /etc/wireguard/";
+            $hub->billing = $date;
+            $hub->status = 1;
 
-        exec($this->bin.$host." useron ".$hub->server->name." ".$hub->name, $r);
+            $host = " ".$this->dns." wgtool /etc/wireguard/";
 
-        if (!$r) {
-            if ($hub->save()) {
-                return back()->with(['type' => 'success'])->with(['message' => 'Profile activated']);
+            exec($this->bin.$host." useron ".$hub->server->name." ".$hub->name, $r);
+
+            if (!$r) {
+                if ($hub->save()) {
+                    $user->ballance -= $money;
+                    if ($user->save()) {
+                        return back()->with(['type' => 'success'])->with(['message' => 'Profile activated']);
+                    }
+                }
+            }else {
+                return back()->with(['type' => 'error'])->with(['message' => 'If you see this message gor long time, get in touch with tecnical support']);
             }
-        }else {
-            return back()->with(['type' => 'error'])->with(['message' => 'If you see this message gor long time, get in touch with tecnical support']);
+
+        } else {
+            return back()->with(['type' => 'error'])->with(['message' => 'Insufficient founds']);
         }
             
     }

@@ -49,7 +49,7 @@ class ServerController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $request->validate([
             "name" => "required|unique:servers",
             "ip" => "required|ip",
@@ -79,11 +79,13 @@ class ServerController extends Controller
         $this->dns=" localhost";
 
         $host = $this->dns." wgtool /etc/wireguard/";
-
+       // exec( "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem localhost wgtool /etc/wireguard/ serverrule carter234.conf 10.0.11.14/29 eth0 add", $r);
+       // return $r;
         exec($this->bin.$host." addserver ".$request->name." ".$request->range." ".$request->port." ".$request->ip, $r);
+        
         //                      addserver     wgX.conf           10.0.0.1/24             12345           1.1.1.1
-        exec($this->bin.$host." localhost wgtool /etc/wireguard/ serverrule ".$request->name." ".$request->range." ".$request->nat." add", $r2);
-        //                serverrule      wgX.conf            10.0.0.1/24         eth0       (add | del)
+        exec($this->bin.$host." serverrule ".$request->name." ".$request->range." ".$request->nat." add", $r2);
+        //                serverrule                                            wgX.conf            10.0.0.1/24         eth0       (add | del)
 
         if (!$r && !$r2) {
 
@@ -140,8 +142,14 @@ class ServerController extends Controller
     public function netlog()
     {
         $filename = public_path('net_log');
-        $server = 'Network';
-        return view('pages.server.status',compact('filename', 'server'));
+        if (!File::exists($filename)) {
+            return back()->with(['type' => 'error'])->with(['message' => 'Net_log not exist']);
+        }else {
+            $server = 'Network';
+            return view('pages.server.status', compact('filename', 'server')); 
+        }
+        
+        
     }
 
     public function serverop(Server $server, $id)
