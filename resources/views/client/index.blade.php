@@ -136,11 +136,11 @@
         <div class="modal-body">
             <div class="mb-3">
                 <label for="name" class="form-label">Name Profile</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Juan">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Juan" required />
             </div>
             <div class="mb-3">
               <label for="loc" class="form-label">Available Locations</label>
-              <select class="form-select" aria-label="La Habana" id="loc" name="loc">
+              <select class="form-select" aria-label="La Habana" id="loc" name="loc" required>
                 @foreach ($locations as $location)
                   <option value="{{$location->loc}}">{{$location->loc}}</option>
                 @endforeach
@@ -160,7 +160,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="fundsModalLabel">Add Funds</h5>
+          <h5 class="modal-title" id="fundsModalLabel">Add Founds</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="{{route('addfunds')}}" method="POST">
@@ -170,11 +170,11 @@
               <div class="input-group mb-3">
                 <span class="input-group-text bg-secondary" style="font-size: 30px; padding: 5px 15px; color: #fff;"><i class="fas fa-qrcode"></i></span>
                 <input type="text" value="{{Storage::disk('config')->get('hash')}}" class="form-control" id="copied" aria-label="" style="border: none; font-size: 25px;">
-                <span class="input-group-text btn btn-secondary btn-sm" onclick="setClipboardCard()" style="font-size: 30px; padding: 5px 15px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Copied"><i class="fas fa-clipboard"></i></span>
+                <span class="input-group-text btn btn-secondary btn-sm" onclick="setClipboardCard()" style="font-size: 30px; padding: 5px 15px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy"><i class="fas fa-clipboard"></i></span>
               </div>
             <div class="mb-3">
                 <label for="tx" class="form-label">Hash Transaction</label>
-                <input type="text" class="form-control" id="tx" name="tx" placeholder="2ds4-2h562-325r-fewr">
+                <input type="text" class="form-control" id="tx" name="tx" placeholder="2ds4-2h562-325r-fewr" required />
             </div>
         </div>
         <div class="modal-footer">

@@ -62,7 +62,11 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                   <li><a class="dropdown-item" href="{{route('dashboard')}}">Home</a></li>
-                                  <li><a class="dropdown-item" href="{{route('client')}}">Manage</a></li>
+                                    @if (Auth::user()->type)
+                                    <li><a class="dropdown-item" href="{{route('admin')}}">Manage</a></li>
+                                    @else
+                                    <li><a class="dropdown-item" href="{{route('client')}}">Manage</a></li>
+                                    @endif
                                   <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 </ul>
                               </li>
@@ -92,7 +96,7 @@
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase" style="font-size: 2.0rem;">Private|WIRE</h1>
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">WireGuard® is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography</h2>
-                        <a class="btn btn-primary" href="#about">Get Started</a>
+                        <a class="btn btn-primary" href="{{request()->routeIs('dashboard') ? route('client') : '#about'}}">BUY</a>
                     </div>
                 </div>
             </div>
