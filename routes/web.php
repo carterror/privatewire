@@ -46,7 +46,7 @@ Route::get('client/', [HomeController::class, 'client'])->middleware('verified')
 
 Route::post('client/addfunds', [HomeController::class, 'addfunds'])->name('addfunds');
 Route::post('client/profile', [HomeController::class, 'profile'])->name('profile');
-Route::get('client/profile/delete', [HomeController::class, 'delete'])->name('profile.delete');
+Route::get('client/{id}/delete', [HomeController::class, 'delete'])->name('profile.delete');
 Route::post('client/active/{hub}', [HomeController::class, 'active'])->name('active');
 
 
@@ -56,6 +56,7 @@ Route::get('/home', function () {
 
 Route::get('/admin', [HomeController::class, 'index'])->name('admin');
 
+Route::get('servers/expire', [ServerController::class, 'expire'])->name('expire');
 Route::get('servers/netlog', [ServerController::class, 'netlog'])->name('netlog');
 Route::resource('servers', ServerController::class);
 Route::get('servers/delete/{id}', [ServerController::class, 'delete'])->name('servers.delete');

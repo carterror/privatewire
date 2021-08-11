@@ -151,6 +151,18 @@ class ServerController extends Controller
         
     }
 
+    public function expire()
+    {
+        $filename = storage_path('app/expire.log');
+        if (!File::exists($filename)) {
+            return back()->with(['type' => 'error'])->with(['message' => 'Network log not exist']);
+        }else {
+            $server = 'Network';
+            return view('pages.server.status', compact('filename', 'server')); 
+        } 
+        
+    }
+
     public function serverop(Server $server, $id)
     {
 

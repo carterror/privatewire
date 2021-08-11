@@ -41,7 +41,7 @@ class Expire extends Command
     {
 
         $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
-        $hubs = Hub::with(['server'])->where('status', '1')->get();
+        $hubs = Hub::with(['server', 'user'])->where('status', '1')->get();
 
         foreach ($hubs as $hub) {
             
@@ -59,7 +59,7 @@ class Expire extends Command
                     exec($bin.$host." useroff ".$h->server->name." ".$h->name, $r);           
                     //          useroff      wgX.conf            bill
 
-                    $texto = "[".date('Y-m-d H:i:s')."]: Expire hub - ".$h->server->name." -> ".$h->name;
+                    $texto = "[".date('Y-m-d H:i:s')."]: Expire hub - Server: ".$h->server->name." -> User: ".$h->user->email." -> Hubs: ".$h->name;
 
                     Storage::append("expire.log", $texto);
 

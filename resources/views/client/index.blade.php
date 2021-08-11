@@ -107,7 +107,7 @@
                                                   </select>
                                                   
                                                   <button type="submit" class="w-100 btn btn-lg btn-primary @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled  @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif>Activate</button>
-                                                  <a href="{{route('profile.delete')}}" class="w-100 btn btn-lg btn-danger" style="margin-top: 10px;">Delete</a>
+                                                  <a href="{{route('profile.delete', $profile->id)}}" class="w-100 btn btn-lg btn-danger" style="margin-top: 10px;">Delete</a>
                                                   </form>
                                                 </div>
                                               </div>

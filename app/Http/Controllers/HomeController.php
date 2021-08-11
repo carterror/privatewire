@@ -197,7 +197,7 @@ class HomeController extends Controller
                 File::deleteDirectory($name);
             }
             
-            return back()->with(['type' => 'success'])->with(['message' => 'User '.$hub->name.' deleted']);
+            return back()->with(['type' => 'success'])->with(['message' => 'Profile '.$hub->name.' deleted']);
 
         } 
     }

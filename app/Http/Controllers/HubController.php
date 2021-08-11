@@ -204,7 +204,7 @@ class HubController extends Controller
                 File::deleteDirectory($name);
             }
             
-            return back()->with(['type' => 'success'])->with(['message' => 'User '.$hub->name.' deleted']);
+            return back()->with(['type' => 'success'])->with(['message' => 'Hubs '.$hub->name.' deleted']);
 
         } 
     }

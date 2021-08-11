@@ -5,9 +5,12 @@
         NET LOG
     </a>
 
-    {{-- Search bar --}}
-    <div class="navbar-search-block">
+</li>
+<li class="nav-item">
 
-    </div>
+    {{-- Search toggle button --}}
+    <a class="nav-link" href="{{route('expire')}}">
+        EXPIRE LOG
+    </a>
 
 </li>

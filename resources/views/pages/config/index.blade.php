@@ -21,7 +21,7 @@
                   </div>
                   <div class="form-group col-md-6">
                     <label for="price">Promo</label>
-                    <input type="text" class="form-control" value="{{Storage::disk('config')->get('promo')}}" id="promo" name="promo" placeholder="0 or 5" required/>
+                    <input type="text" class="form-control" value="{{Storage::disk('config')->get('promo')}}" id="promo" name="promo" placeholder="If 0 there is no active promotion" required/>
                   </div>
                   <div class="form-group col-md-12">
                     <label for="price">Email</label>
