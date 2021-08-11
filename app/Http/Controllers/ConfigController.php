@@ -61,6 +61,20 @@ class ConfigController extends Controller
         return back()->with(['type' => 'success'])->with(['message' => 'Hash updated']);
     }
 
+    public function email(Request $request)
+    {
+
+
+        return back()->with(['type' => 'success'])->with(['message' => 'Email updated']);
+    }
+
+    public function promo(Request $request)
+    {
+
+
+        return back()->with(['type' => 'success'])->with(['message' => 'Promo updated']);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -71,8 +85,10 @@ class ConfigController extends Controller
     {
         Storage::disk('config')->put('price', $request->price);
 
-        //Storage::disk('config')->get('price');
+        Storage::disk('config')->put('email', $request->email);
 
-        return back()->with(['type' => 'success'])->with(['message' => 'Price updated']);
+        Storage::disk('config')->put('promo', $request->promo);
+
+        return back()->with(['type' => 'success'])->with(['message' => 'Config updated']);
     }
 }

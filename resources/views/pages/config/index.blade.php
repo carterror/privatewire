@@ -13,11 +13,19 @@
             <div class="card">
               <form action="{{route('settings.price')}}" method="post">
                 @csrf
-                <div class="card-header">{{ __('Price') }}</div>
-                <div class="card-body">
-                  <div class="form-group">
+                <div class="card-header">{{ __('Config') }}</div>
+                <div class="row card-body">
+                  <div class="form-group col-md-6">
                     <label for="price">Price / Mo</label>
                     <input type="text" class="form-control" value="{{Storage::disk('config')->get('price')}}" id="price" name="price" placeholder="2">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="price">Promo</label>
+                    <input type="text" class="form-control" value="{{Storage::disk('config')->get('promo')}}" id="promo" name="promo" placeholder="null or 5">
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="price">Email</label>
+                    <input type="email" class="form-control" value="{{Storage::disk('config')->get('email')}}" id="email" name="email" placeholder="ejemplo@gmai.com">
                   </div>
                 </div>
                 <div class="card-footer">
@@ -81,15 +89,5 @@
 @stop
 
 @section('js')
-@if(Session::has('message'))
-<script>
-      Swal.fire({
-        position: 'top-end',
-        icon: '{{ Session::get("type") }}',
-        title: '{{ Session::get("message") }}',
-        showConfirmButton: false,
-        timer: 2000
-      });
-</script>
-@endif 
+
 @stop

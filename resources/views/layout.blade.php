@@ -59,6 +59,7 @@
                                 @else
                                 <li class="nav-item"><a class="nav-link" href="{{route('client')}}">Manage</a></li>
                                 @endif
+                                <li class="nav-item"><a class="nav-link" href="javascript;" data-bs-toggle="modal" data-bs-target="#passModal">Change Password</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,7 +72,7 @@
                                     @else
                                     <li><a class="dropdown-item" href="{{route('client')}}">Manage</a></li>
                                     @endif
-                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passModal" >Change Password</a></li>
+                                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passModal" >Change Password</button></li>
                                     {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passModal">New Profile</button> --}}
                                   <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 </ul>
@@ -114,35 +115,33 @@
         <section class="signup-section" id="signup">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="card py-4 h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">Address</h4>
-                                <hr class="my-4 mx-auto" />
-                                <div class="small text-black-50">La Habana del Este, La Habana, Cuba.</div>
-                            </div>
+                    <div class="col-md-10 col-lg-8 mx-auto text-center">
+                        <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+                        <h2 class="text-white mb-5">Contact Us!</h2>
+                        <form class="form-signup" action="{{route('contact')}}" method="POST">
+                            @csrf
+                            <!-- Email address input-->
+                            <div class="row">
+                                <div class="col-md-6" style="margin-top: 15px;"><input class="form-control" value="{{old('name')}}" name="name" type="text" placeholder="Enter name..."  required/></div>
+                                @if (Route::has('login'))
+                                @auth
+                                <div class="col-md-6" style="margin-top: 15px;"><input class="form-control" name="email" type="email" value="{{Auth::user()->email}}" required/></div>
+                                @else
+                                <div class="col-md-6" style="margin-top: 15px;"><input class="form-control" value="{{old('email')}}" name="email" type="email" placeholder="Enter email address..." required/></div>
+                                @endauth
+                                @endif
+                            </div> 
+                            <div class="row" style="margin-top: 15px;">  
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                    <textarea class="form-control" id="commencts" value="{{old('commencts')}}" name="commentc" style="height: 100px" required></textarea>
+                                    <label for="commencts">COMMENTS</label>
+                                    </div>
+                                </div> 
+                        <div class="row" style="margin-top: 15px;"> 
+                            <div class="col-md-12"><button class="btn btn-primary" id="" type="submit">Send!</button></div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="card py-4 h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-envelope text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">Email</h4>
-                                <hr class="my-4 mx-auto" />
-                                <div class="small text-black-50"><a href="mailto:godjango.automail2@gmail.com">godjango.automail2@gmail.com</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="card py-4 h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">Phone</h4>
-                                <hr class="my-4 mx-auto" />
-                                <div class="small text-black-50"><a href="tel:+5355096521">+53 55096521</a></div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
@@ -154,8 +153,8 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
                     <div class="social d-flex justify-content-center">
-                        <a class="mx-2" href="https://wa.link/nmcim4"><i class="fab fa-whatsapp"></i></a>
-                        <a class="mx-2" href="https://www.facebook.com/Atlas-106901738144601"><i class="fab fa-facebook-f"></i></a>
+                        <a class="mx-2" href="#!"><i class="fab fa-whatsapp"></i></a>
+                        <a class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
                         <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
                     </div>
             </div>

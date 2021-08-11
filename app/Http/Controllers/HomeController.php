@@ -34,7 +34,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $users = User::count();
+        $hubs = Hub::count();
+        $hubsac= Hub::where('status', 1)->count();
+        $hubsav= Server::where('status', 1)->sum('hubs');
+
+        $data = ['users' => $users, 'hubs' => $hubs, 'hubsac' => $hubsac, 'hubsav' => $hubsav];
+
+        return view('home', $data);
     }
 
     public function client()
@@ -61,8 +69,7 @@ class HomeController extends Controller
         return back()->with(['type' => 'success'])->with(['message' => 'As soon as your transaction is validated, the founds you sent will be available']);
 
     }
-    
-    
+
     public function profile(Request $request)
     {
         $request->validate([

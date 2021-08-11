@@ -5,8 +5,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\UserController;
+use App\Mail\Contact;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +28,20 @@ Route::get('/', function () {
     return view('welcome');
 })->name('dashboard');
 
+Route::post('/contact', function (Request $request) {
+
+    $array = [
+        "name" => $request->name,
+        'email' => $request->email,
+        'commentc' => $request->commentc,
+    ];
+
+    Mail::to(Storage::disk('config')->get('email'))->send(new Contact($array));
+    return back()->with(['type' => 'success'])->with(['message' => 'Comment sent']);
+
+
+})->name('contact');
+
 Route::get('client/', [HomeController::class, 'client'])->middleware('verified')->name('client');
 
 Route::post('client/addfunds', [HomeController::class, 'addfunds'])->name('addfunds');
@@ -31,11 +49,6 @@ Route::post('client/profile', [HomeController::class, 'profile'])->name('profile
 Route::get('client/profile/delete', [HomeController::class, 'delete'])->name('profile.delete');
 Route::post('client/active/{hub}', [HomeController::class, 'active'])->name('active');
 
-// Route::get('client/', [HomeController::class, 'client'])->name('client.profile');
-
-// Route::get('verification/{id}', function ($id) {
-    
-// })->name('verification.notice');
 
 Route::get('/home', function () {
     return redirect()->route('admin');
