@@ -20,7 +20,10 @@ class UserController extends Controller
         $this->middleware('isadmin');
     }
 
-    public $bin = "wgtool /etc/wireguard/"; 
+    public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
+    public $path = "/var/wgtool/";
+    public $dns = "localhost"; // Hosting prueba
+
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +33,9 @@ class UserController extends Controller
     {
         $users = User::where('type', 0)->paginate(9);
 
-        return view('pages.user.index', compact('users'));
+        $hubs = Hub::all();
+
+        return view('pages.user.index', compact('users', 'hubs'));
     }
 
     /**
@@ -90,6 +95,18 @@ class UserController extends Controller
         return view('pages.user.edit');
     }
 
+    public function ballance(Request $request, $id)
+    {
+        $user = User::findorfail($id);
+
+        $user->ballance = $request->ballance;
+
+        if ($user->save()) {
+            return back()->with(['type' => 'success'])->with(['message' => 'Ballance updated']);;
+        }
+        
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -97,7 +114,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
 
         $request->validate([
@@ -106,6 +123,8 @@ class UserController extends Controller
             'passv' => 'required|same:pass'
         ]);
 
+        $user = User::findorfail(Auth::user()->id);
+
             if (Hash::check($request->passo, $user->password)):
                 $user->password = Hash::make($request->pass);
             else: 
@@ -113,7 +132,7 @@ class UserController extends Controller
             endif;
 
             if($user->save()):
-                return redirect()->route('home')->with(['type' => 'success'])->with(['message' => 'Password Update']);
+                return back()->with(['type' => 'success'])->with(['message' => 'Password Update']);
             endif;
 
     }
@@ -131,25 +150,20 @@ class UserController extends Controller
         $hubs = Hub::where('user_id', $user->id)->orderBy('server_id', 'asc')->get();
 
         if ($user->delete()) {
-            
-            $aux = -1;
 
             foreach ($hubs as $hub) {
-                
-                if ($hub->server_id != $aux) {
-
-                    $aux = $hub->server_id;
 
                     $server = Server::find($hub->server_id);
 
-                    $del = Hub::where('user_id', $user->id)->where('server_id', $server->id)->orderBy('server_id', 'asc')->count();
+                    $host = " ".$this->dns." wgtool /etc/wireguard/";
+                    
+                    exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
 
                     $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($email));
         
                     if (File::exists($name)) {
                         File::deleteDirectory($name);
                     }
-                }
             }
 
             return back()->with(['type' => 'success'])->with(['message' => 'User '.$user->email.' deleted']);

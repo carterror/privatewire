@@ -121,7 +121,7 @@ class HubController extends Controller
     {
         $request->validate([
             "name" => "required|unique:hubs",
-            "dns" => "required|ip",
+            "dns" => "required",
             "server_id" => "required",
         ]);
         
@@ -147,6 +147,9 @@ class HubController extends Controller
 
         exec($this->bin.$host." adduser ".$server->name." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/ ".$request->name." ".$request->dns, $r);
                         //    adduser      wgX.conf         /dir-for-user-profile                                                                        bill             8.8.8.8  
+        
+        exec($this->bin.$host." useroff ".$server->name." ".$request->name, $r5);
+        
         $getfile = " ".$this->dns." build-in:getfile";
         // return dd($r);
         exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r);

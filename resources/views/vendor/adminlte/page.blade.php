@@ -79,7 +79,7 @@
           icon: 'error',
           title: '{{$errors->first()}}',
           showConfirmButton: false,
-          timer: 2000
+          timer: 3500
           });
     </script>
     @endif
@@ -91,7 +91,7 @@
             icon: '{{ Session::get("type") }}',
             title: '{{ Session::get("message") }}',
             showConfirmButton: false,
-            timer: 2000
+            timer: 3500
           });
     </script>
     @endif 

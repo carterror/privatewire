@@ -16,9 +16,8 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{route('users.update', Auth::user())}}" method="POST">
+            <form action="{{route('users.update')}}" method="POST">
               @csrf
-              @method('put')
               <div class="card-body">
                 <div class="form-group">
                   <label for="passo">Password Old</label>

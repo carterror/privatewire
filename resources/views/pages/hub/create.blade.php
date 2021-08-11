@@ -22,11 +22,11 @@
               <div class="card-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="name">
+                  <input type="text" class="form-control" id="name" value="{{old('name')}}" name="name" placeholder="name">
                 </div>
                 <div class="form-group">
                   <label for="dns">Server DNS</label>
-                  <input type="text" class="form-control" id="dns" name="dns" placeholder="8.8.8.8">
+                  <input type="text" class="form-control" id="dns" value="{{old('dns')}}" name="dns" placeholder="8.8.8.8">
                 </div>
                 <div class="form-group">
                   <label>Server VPN</label>

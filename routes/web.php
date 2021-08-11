@@ -28,6 +28,7 @@ Route::get('client/', [HomeController::class, 'client'])->middleware('verified')
 
 Route::post('client/addfunds', [HomeController::class, 'addfunds'])->name('addfunds');
 Route::post('client/profile', [HomeController::class, 'profile'])->name('profile');
+Route::get('client/profile/delete', [HomeController::class, 'delete'])->name('profile.delete');
 Route::post('client/active/{hub}', [HomeController::class, 'active'])->name('active');
 
 // Route::get('client/', [HomeController::class, 'client'])->name('client.profile');
@@ -38,18 +39,19 @@ Route::post('client/active/{hub}', [HomeController::class, 'active'])->name('act
 
 Route::get('/home', function () {
     return redirect()->route('admin');
-});
+})->name('home');
 
 Route::get('/admin', [HomeController::class, 'index'])->name('admin');
 
-
+Route::get('servers/netlog', [ServerController::class, 'netlog'])->name('netlog');
 Route::resource('servers', ServerController::class);
 Route::get('servers/delete/{id}', [ServerController::class, 'delete'])->name('servers.delete');
 Route::get('servers/{server}/{id}', [ServerController::class, 'serverop'])->name('serverop');
-Route::get('servers/netlog', [ServerController::class, 'netlog'])->name('netlog');
 
-Route::resource('users', UserController::class);
-Route::get('users/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
+Route::resource('users', UserController::class)->except(['update']);
+Route::post('users/update', [UserController::class, 'update'])->name('users.update');
+Route::post('users/{id}/ballance', [UserController::class, 'ballance'])->name('users.ballance');
+Route::get('users/{id}/delete', [UserController::class, 'delete'])->name('users.delete');
 
 Route::resource('hubs', HubController::class);
 Route::post('hubs/billing/{hub}', [HubController::class, 'billing'])->name('billing');

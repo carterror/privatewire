@@ -58,6 +58,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function adminlte_profile_url()
     {
-        return 'aasd';
+        return '/';
     }
 }

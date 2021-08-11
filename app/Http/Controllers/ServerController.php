@@ -40,7 +40,7 @@ class ServerController extends Controller
     {
         return view('pages.server.create');
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -52,7 +52,7 @@ class ServerController extends Controller
         
         $request->validate([
             "name" => "required|unique:servers",
-            "ip" => "required|ip",
+            "ip" => "required",
             "port" => "required|numeric|unique:servers",
             "nat" => "required",
             "loc" => "required",
@@ -143,12 +143,11 @@ class ServerController extends Controller
     {
         $filename = public_path('net_log');
         if (!File::exists($filename)) {
-            return back()->with(['type' => 'error'])->with(['message' => 'Net_log not exist']);
+            return back()->with(['type' => 'error'])->with(['message' => 'Network log not exist']);
         }else {
             $server = 'Network';
             return view('pages.server.status', compact('filename', 'server')); 
-        }
-        
+        } 
         
     }
 
@@ -172,9 +171,7 @@ class ServerController extends Controller
             return view('pages.server.status',compact('filename', 'server'));
         } else {
             return back()->with(['type' => 'info'])->with(['message' => 'Server '.$server->name.' '.$id]);
-        }
-        
-        
+        }  
 
     }
     

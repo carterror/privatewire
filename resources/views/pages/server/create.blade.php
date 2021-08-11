@@ -21,27 +21,27 @@
               <div class="card-body">
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="server">
+                  <input type="text" class="form-control" id="name" value="{{old('name')}}" name="name" placeholder="server">
                 </div>
                 <div class="form-group">
                   <label for="range">Address IP</label>
-                  <input type="text" class="form-control" id="range" name="range" placeholder="192.168.0.1/24">
+                  <input type="text" class="form-control" id="range" value="{{old('range')}}" name="range" placeholder="192.168.0.1/24">
                 </div>
                 <div class="form-group">
                   <label for="ip">Public IP</label>
-                  <input type="text" class="form-control" id="ip" name="ip" placeholder="192.168.0.1">
+                  <input type="text" class="form-control" id="ip" value="{{old('ip')}}" name="ip" placeholder="192.168.0.1">
                 </div>
                 <div class="form-group">
                   <label for="port">Port</label>
-                  <input type="number" class="form-control" id="port" name="port" placeholder="3333">
+                  <input type="number" class="form-control" id="port" value="{{old('port')}}" name="port" placeholder="3333">
                 </div>
                 <div class="form-group">
                   <label for="nat">NAT Iface</label>
-                  <input type="text" class="form-control" id="nat" name="nat" placeholder="Eth0">
+                  <input type="text" class="form-control" id="nat" value="{{old('nat')}}" name="nat" placeholder="Eth0">
                 </div>
                 <div class="form-group">
                   <label for="loc">Location</label>
-                  <input type="text" class="form-control" id="loc" name="loc" placeholder="New Jersey">
+                  <input type="text" class="form-control" id="loc" value="{{old('loc')}}" name="loc" placeholder="New Jersey">
                 </div>
               </div>
               <!-- /.card-body -->

@@ -29,9 +29,9 @@
                       <thead>
                         <tr>
                           <th>Email</th>
-                          <th>Ballance</th>
+                          <th colspan="2">Ballance</th>
                           <th>Created date</th>
-                          <th>Hubs</th>
+                          <th colspan="2">Hubs</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -40,8 +40,18 @@
 
                           <tr>
                             <td>{{$user->email}}</td>
-                            <td>{{$user->ballance}}</td>
+                            <form action="{{route('users.ballance', $user->id)}}" method="POST">
+                              @csrf
+                              <td>
+                                <input class="form-control" type="text" value="{{$user->ballance}}" name="ballance" style="min-width: 50px !important;">
+                              </td><td>
+                                <button type="submit" class="form-control btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Add founds">
+                                  <i class="fas fa-fw fa-plus"></i>
+                                </button>
+                              </td>
+                            </form>
                             <td>{{$user->created_at}}</td>
+                            <td>{{$hubs->where('user_id', $user->id)->count()}}</td>
                             <td>                              
                               <a href="{{route('users.show', $user)}}" data-toggle="tooltip" data-placement="top" title="Hubs">
                               <span class="btn btn-sm btn-info">

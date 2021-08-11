@@ -81,8 +81,8 @@
                                               </div>
                                             </div>
                                             <div class="col">
-                                              <div class="card mb-4 rounded-3 shadow-sm border-primary @if(Auth::user()->ballence < Storage::disk('config')->get('price')) border-danger @endif">
-                                                <div class="card-header py-3 text-white bg-primary border-primary @if(Auth::user()->ballence < Storage::disk('config')->get('price')) bg-danger border-danger @endif">
+                                              <div class="card mb-4 rounded-3 shadow-sm @if(Auth::user()->ballance < Storage::disk('config')->get('price')) border-danger @else border-primary  @endif">
+                                                <div class="card-header py-3 text-white @if(Auth::user()->ballance < Storage::disk('config')->get('price')) bg-danger border-danger @else bg-primary border-primary  @endif">
                                                   <h4 class="my-0 fw-normal">Actions</h4>
                                                 </div>
                                                 <div class="card-body">
@@ -99,15 +99,15 @@
                                                   @php
                                                       $mounths = Auth::user()->ballance/Storage::disk('config')->get('price');
                                                   @endphp
-                                                  <select class="form-select form-select-lg mb-3 @if ($profile->status) disabled @endif" @if ($profile->status) disabled @endif name="mounts">
+                                                  <select class="form-select form-select-lg mb-3 @if ($profile->status) disabled @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif name="mounts">
                                                     <option value="1" selected>Chosse how many month</option>
                                                     @for ($i = 1; $i < $mounths; $i++)
                                                       <option value="{{$i}}">{{$i}} @if($i>1) Months @else Month @endif</option>
                                                     @endfor
                                                   </select>
                                                   
-                                                  <button type="submit" class="w-100 btn btn-lg btn-primary @if ($profile->status || Auth::user()->ballence < Storage::disk('config')->get('price')) disabled  @endif" @if ($profile->status || Auth::user()->ballence < Storage::disk('config')->get('price')) disabled @endif>Activate</button>
-                                                  <a href="a" class="w-100 btn btn-lg btn-danger" style="margin-top: 10px;">Delete</a>
+                                                  <button type="submit" class="w-100 btn btn-lg btn-primary @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled  @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif>Activate</button>
+                                                  <a href="{{route('profile.delete')}}" class="w-100 btn btn-lg btn-danger" style="margin-top: 10px;">Delete</a>
                                                   </form>
                                                 </div>
                                               </div>

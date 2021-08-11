@@ -133,7 +133,7 @@ class HomeController extends Controller
         $money = $request->mounts*Storage::disk('config')->get('price');
         $user = User::findorfail(Auth::user()->id);
 
-        if ($money < $user->ballence) {
+        if ($money < $user->ballance) {
 
             $hub = Hub::with(['server'])->findorfail($id);
 
@@ -161,6 +161,34 @@ class HomeController extends Controller
             return back()->with(['type' => 'error'])->with(['message' => 'Insufficient founds']);
         }
             
+    }
+
+    public function delete()
+    {
+        $user = User::find(Auth::user()->id);
+        $email = $user->email;
+        $hubs = Hub::where('user_id', $user->id)->orderBy('server_id', 'asc')->get();
+
+        if ($user->delete()) {
+
+            foreach ($hubs as $hub) {
+
+                    $server = Server::find($hub->server_id);
+
+                    $host = " ".$this->dns." wgtool /etc/wireguard/";
+                    
+                    exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
+
+                    $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($email));
+        
+                    if (File::exists($name)) {
+                        File::deleteDirectory($name);
+                    }
+            }
+
+            return redirect()->route('dashboard')->with(['type' => 'success'])->with(['message' => 'Bye']);
+
+        } 
     }
 
 }

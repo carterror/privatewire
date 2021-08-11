@@ -54,7 +54,11 @@
                         @if (Route::has('login'))
                             @auth
                                 <li class="nav-item"><a class="nav-link" href="{{route('dashboard')}}">Home</a></li>
+                                @if (Auth::user()->type)
+                                <li class="nav-item"><a class="nav-link" href="{{route('admin')}}">Manage</a></li>
+                                @else
                                 <li class="nav-item"><a class="nav-link" href="{{route('client')}}">Manage</a></li>
+                                @endif
                                 <li class="nav-item"><a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,6 +71,8 @@
                                     @else
                                     <li><a class="dropdown-item" href="{{route('client')}}">Manage</a></li>
                                     @endif
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passModal" >Change Password</a></li>
+                                    {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passModal">New Profile</button> --}}
                                   <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 </ul>
                               </li>
@@ -154,6 +160,38 @@
                     </div>
             </div>
         </section>
+          <!-- Modal -->
+  <div class="modal fade" id="passModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="passModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="passModalLabel">Change Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{route('users.update')}}" method="POST">
+          @csrf
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="passo" class="form-label">Password Old</label>
+                <input type="password" class="form-control" id="passo" name="passo" required />
+            </div>
+            <div class="mb-3">
+                <label for="pass" class="form-label">Password</label>
+                <input type="password" class="form-control" id="pass" name="pass" required />
+            </div>
+            <div class="mb-3">
+                <label for="passv" class="form-label">Password Verification</label>
+                <input type="password" class="form-control" id="passv" name="passv" required />
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">By GoDjango 2021</div></footer>
         <!-- Bootstrap core JS-->
