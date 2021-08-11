@@ -111,12 +111,15 @@ class HomeController extends Controller
 
             if (!$r1 && !$r2 && !$r3 && !$r4 && !$r5) {
 
-                Hub::create([
+                $hub = Hub::create([
                     'name' => $request->name,
                     'server_id' => $server->id,
                     'user_id' => Auth::user()->id,
                     'dns' => '8.8.8.8'
                 ]);
+
+                $server->hubs--;
+                $server->save();
     
                 return back()->with(['type' => 'success'])->with(['message' => 'Profile created successfully']);
 
@@ -170,30 +173,31 @@ class HomeController extends Controller
             
     }
 
-    public function delete()
+    public function delete($id)
     {
-        $user = User::find(Auth::user()->id);
-        $email = $user->email;
-        $hubs = Hub::where('user_id', $user->id)->orderBy('server_id', 'asc')->get();
+        $hub = Hub::find($id);
 
-        if ($user->delete()) {
+        $server = Server::find($hub->server_id);
 
-            foreach ($hubs as $hub) {
+        $user = User::find($hub->user_id);
 
-                    $server = Server::find($hub->server_id);
+        $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($hub->name));
 
-                    $host = " ".$this->dns." wgtool /etc/wireguard/";
-                    
-                    exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
+        $host = " ".$this->dns." wgtool /etc/wireguard/";
 
-                    $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($email));
+        exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
+        //                deluser      wgX.conf            bill
         
-                    if (File::exists($name)) {
-                        File::deleteDirectory($name);
-                    }
-            }
+        if ($hub->delete()) {
 
-            return redirect()->route('dashboard')->with(['type' => 'success'])->with(['message' => 'Bye']);
+            $server->hubs++;
+            $server->save();
+
+            if (File::exists($name)) {
+                File::deleteDirectory($name);
+            }
+            
+            return back()->with(['type' => 'success'])->with(['message' => 'User '.$hub->name.' deleted']);
 
         } 
     }

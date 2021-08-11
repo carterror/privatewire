@@ -17,15 +17,15 @@
                 <div class="row card-body">
                   <div class="form-group col-md-6">
                     <label for="price">Price / Mo</label>
-                    <input type="text" class="form-control" value="{{Storage::disk('config')->get('price')}}" id="price" name="price" placeholder="2">
+                    <input type="text" class="form-control" value="{{Storage::disk('config')->get('price')}}" id="price" name="price" placeholder="2" required/>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="price">Promo</label>
-                    <input type="text" class="form-control" value="{{Storage::disk('config')->get('promo')}}" id="promo" name="promo" placeholder="null or 5">
+                    <input type="text" class="form-control" value="{{Storage::disk('config')->get('promo')}}" id="promo" name="promo" placeholder="0 or 5" required/>
                   </div>
                   <div class="form-group col-md-12">
                     <label for="price">Email</label>
-                    <input type="email" class="form-control" value="{{Storage::disk('config')->get('email')}}" id="email" name="email" placeholder="ejemplo@gmai.com">
+                    <input type="email" class="form-control" value="{{Storage::disk('config')->get('email')}}" id="email" name="email" placeholder="ejemplo@gmai.com" required/>
                   </div>
                 </div>
                 <div class="card-footer">

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -64,11 +65,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        Session::flash('message', 'Welcome, a verification email has been sent to you');
-
+        $promo = Storage::disk('config')->get('promo');
+        if (!$promo) {
+            Session::flash('message', 'Welcome, a verification email has been sent to you');
+        }else {
+            Session::flash('message', 'Welcome, a verification email has been sent to you. Congratulations, your account was rewarded with $'.$promo);
+        }
+        
         return User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'ballance' => $promo,
         ]);
     }
 }

@@ -29,7 +29,7 @@
                       <thead>
                         <tr>
                           <th>Email</th>
-                          <th colspan="2">Ballance</th>
+                          <th colspan="2">Balance</th>
                           <th>Created date</th>
                           <th colspan="2">Hubs</th>
                           <th></th>

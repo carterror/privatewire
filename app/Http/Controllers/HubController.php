@@ -164,8 +164,6 @@ class HubController extends Controller
                 'dns' => $request->dns
             ]);
 
-            $this->show($hub);
-
             $server->hubs--;
             $server->save();
 
