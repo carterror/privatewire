@@ -127,12 +127,11 @@ class UserController extends Controller
 
             if (Hash::check($request->passo, $user->password)):
                 $user->password = Hash::make($request->pass);
+                if($user->save()):
+                    return back()->with(['type' => 'success'])->with(['message' => 'Password Update']);
+                endif;
             else: 
                 return back()->with(['type' => 'error'])->with(['message' => 'Password old incorrect']);
-            endif;
-
-            if($user->save()):
-                return back()->with(['type' => 'success'])->with(['message' => 'Password Update']);
             endif;
 
     }

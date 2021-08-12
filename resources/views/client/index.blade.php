@@ -13,7 +13,7 @@
                   <h2 style="color: #fff;">{{Auth::user()->email}} <span class="badge bg-secondary">${{Auth::user()->ballance}}</span></h2>
                 </div>
                 <div class="col-md-4">
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fundsModal">Add Funds</button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fundsModal">Add Founds</button>
                 </div>
               </div>
             </div>
