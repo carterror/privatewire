@@ -87,7 +87,7 @@
                                 <li class="nav-item"><a class="nav-link" href="#about"><b>About</b></a></li>
                                 <li class="nav-item"><a class="nav-link" href="#projects"><b>Projects</b></a></li>
                                 <li class="nav-item"><a class="nav-link" href="#signup"><b>Contact</b></a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('login')}}">Login</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('login')}}"><b>Login</b></a></li>
                             @endauth
                         @endif
                         

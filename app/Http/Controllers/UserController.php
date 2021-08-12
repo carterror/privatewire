@@ -102,7 +102,7 @@ class UserController extends Controller
         $user->ballance = $request->ballance;
 
         if ($user->save()) {
-            return back()->with(['type' => 'success'])->with(['message' => 'Ballance updated']);;
+            return back()->with(['type' => 'success'])->with(['message' => 'Balance updated']);;
         }
         
     }
@@ -156,7 +156,9 @@ class UserController extends Controller
                     $server = Server::find($hub->server_id);
 
                     $host = " ".$this->dns." wgtool /etc/wireguard/";
-                    
+
+                    exec($this->bin.$host." useroff ".$server->name." ".$hub->name, $r);
+
                     exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
 
                     $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($email));

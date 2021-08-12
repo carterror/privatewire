@@ -101,13 +101,13 @@
                                                   @endphp
                                                   <select class="form-select form-select-lg mb-3 @if ($profile->status) disabled @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif name="mounts">
                                                     <option value="1" selected>Chosse how many month</option>
-                                                    @for ($i = 1; $i < $mounths; $i++)
+                                                    @for ($i = 1; $i <= $mounths; $i++)
                                                       <option value="{{$i}}">{{$i}} @if($i>1) Months @else Month @endif</option>
                                                     @endfor
                                                   </select>
                                                   
                                                   <button type="submit" class="w-100 btn btn-lg btn-primary @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled  @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif>Activate</button>
-                                                  <a href="{{route('profile.delete', $profile->id)}}" class="w-100 btn btn-lg btn-danger" style="margin-top: 10px;">Delete</a>
+                                                  <a href="{{route('profile.delete', $profile->id)}}" class="w-100 btn btn-lg btn-danger delete" style="margin-top: 10px;">Delete</a>
                                                   </form>
                                                 </div>
                                               </div>

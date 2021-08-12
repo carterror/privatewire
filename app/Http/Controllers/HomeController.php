@@ -143,7 +143,7 @@ class HomeController extends Controller
         $money = $request->mounts*Storage::disk('config')->get('price');
         $user = User::findorfail(Auth::user()->id);
 
-        if ($money < $user->ballance) {
+        if ($money <= $user->ballance) {
 
             $hub = Hub::with(['server'])->findorfail($id);
 
@@ -185,8 +185,10 @@ class HomeController extends Controller
 
         $host = " ".$this->dns." wgtool /etc/wireguard/";
 
+        exec($this->bin.$host." useroff ".$server->name." ".$hub->name, $r5);
+
         exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
-        //                deluser      wgX.conf            bill
+        //                      deluser      wgX.conf            bill
         
         if ($hub->delete()) {
 

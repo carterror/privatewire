@@ -82,8 +82,8 @@ class ServerController extends Controller
        // exec( "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem localhost wgtool /etc/wireguard/ serverrule carter234.conf 10.0.11.14/29 eth0 add", $r);
        // return $r;
         exec($this->bin.$host." addserver ".$request->name." ".$request->range." ".$request->port." ".$request->ip, $r);
-        
         //                      addserver     wgX.conf           10.0.0.1/24             12345           1.1.1.1
+
         exec($this->bin.$host." serverrule ".$request->name." ".$request->range." ".$request->nat." add", $r2);
         //                serverrule                                            wgX.conf            10.0.0.1/24         eth0       (add | del)
 
@@ -93,7 +93,7 @@ class ServerController extends Controller
                 mkdir($archivo);
             }
 
-                Server::create([
+            $server = Server::create([
                     'name' => $request->name,
                     'range' => $request->range,
                     'ip' => $request->ip,
@@ -102,6 +102,9 @@ class ServerController extends Controller
                     'loc' => $request->loc,
                     'port' => $request->port
                 ]);
+
+            $this->serverop($server, 'enable');
+            $this->serverop($server, 'start');
 
             return redirect()->route('servers.index')->with(['type' => 'success'])->with(['message' => 'Server created']);
 
@@ -171,7 +174,7 @@ class ServerController extends Controller
         $host = " ".$this->dns." wgtool /etc/wireguard/";
 
         exec($this->bin.$host." serverop ".$server->name." ".$id." ".$this->path.Str::slug($server->name)."/stdout.log", $r);
-                    //        1 serverop  2 wgX.conf        3 (start | stop | restart | status) 4 (./stdout.log | -)
+                    //        1 serverop  2 wgX.conf        3 (start | stop | restart | status | enable | disable) 4 (./stdout.log | -)
         $getfile = " ".$this->dns." build-in:getfile";
         // return dd($r);
         exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/stdout.log ./serverslist/".Str::slug($server->name)."/stdout.log", $r);
@@ -241,13 +244,17 @@ class ServerController extends Controller
 
             exec($this->bin.$host." serverrule ".$server->name." ".$server->range." ".$server->nat." del", $r);
             //              serverrule      wgX.conf          10.0.0.1/24         eth0        (add | del)
+            $this->serverop($server, 'stop');
+
+            $this->serverop($server, 'disable');
+
             exec($this->bin.$host." delserver ".$server->name, $r);
-            //                delserver     wgX.conf
+            //                      delserver     wgX.conf
 
             if (File::exists($name)) {
                 File::deleteDirectory($name);
             }
-            
+
             return back()->with(['type' => 'success'])->with(['message' => 'Server deleted']);
 
         } 
