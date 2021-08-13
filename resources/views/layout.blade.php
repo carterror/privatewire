@@ -54,12 +54,12 @@
                         @if (Route::has('login'))
                             @auth
                                 <li class="nav-item"><a class="nav-link" href="{{route('dashboard')}}">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('download').'#about'}}">Download</a></li>
                                 @if (Auth::user()->type)
                                 <li class="nav-item"><a class="nav-link" href="{{route('admin')}}">Manage</a></li>
                                 @else
-                                <li class="nav-item"><a class="nav-link" href="{{route('client')}}">Manage</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('client').'#about'}}">Manage</a></li>
                                 @endif
-                                <li class="nav-item"><a class="nav-link" href="{{route('download')}}">Download</a></li>
                                 <li class="nav-item"><a class="nav-link" href="javascript;" data-bs-toggle="modal" data-bs-target="#passModal">Change Password</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 <li class="nav-item dropdown">
@@ -68,6 +68,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                   <li><a class="dropdown-item" href="{{route('dashboard')}}">Home</a></li>
+                                  <li><a class="dropdown-item" href="{{route('download').'#about'}}">Download</a></li>
                                     @if (Auth::user()->type)
                                     <li><a class="dropdown-item" href="{{route('admin')}}">Manage</a></li>
                                     @else
@@ -192,6 +193,7 @@
       </div>
     </div>
   </div>
+
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">By GoDjango 2021</div></footer>
         <!-- Bootstrap core JS-->

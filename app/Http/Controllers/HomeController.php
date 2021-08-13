@@ -23,6 +23,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('isadmin')->only('index');
         $this->middleware('verified');  
     }
     public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
@@ -55,6 +56,31 @@ class HomeController extends Controller
         return view('client.index', compact('profiles', 'locations'));
     }
 
+    function getPlatform($user_agent) {
+    $plataformas = array(
+        'Windows 10' => 'Windows NT 10.0+',
+        'Windows 8.1' => 'Windows NT 6.3+',
+        'Windows 8' => 'Windows NT 6.2+',
+        'Windows 7' => 'Windows NT 6.1+',
+        'Windows Vista' => 'Windows NT 6.0+',
+        'Windows XP' => 'Windows NT 5.1+',
+        'Windows 2003' => 'Windows NT 5.2+',
+        'Windows' => 'Windows otros',
+        'iPhone' => 'iPhone',
+        'iPad' => 'iPad',
+        'Mac OS X' => '(Mac OS X+)|(CFNetwork+)',
+        'Mac otros' => 'Macintosh',
+        'Android' => 'Android',
+        'BlackBerry' => 'BlackBerry',
+        'Linux' => 'Linux',
+    );
+    foreach($plataformas as $plataforma=>$pattern){
+        if (preg_match('/(?i)'.$pattern.'/', $user_agent))
+            return $plataforma;
+    }
+    return 'Otras';
+    }
+
     public function download()
     {
         $downloads = Download::get();
@@ -67,7 +93,9 @@ class HomeController extends Controller
 
         $android = $downloads->where('so', 'android');
 
-        return view('client.download', compact('windows', 'linux', 'mac', 'android'));
+        $so = $this->getPlatform($_SERVER['HTTP_USER_AGENT']);
+
+        return view('client.download', compact('windows', 'linux', 'mac', 'android', 'so'));
     } 
 
     public function addfunds(Request $request)

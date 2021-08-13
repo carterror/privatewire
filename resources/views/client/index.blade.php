@@ -95,12 +95,12 @@
                                                     <li>Absolutly encrypted</li>
                                                   </ul>
                                                   <h1 class="card-title pricing-card-title">${{Storage::disk('config')->get('price')}}<small class="text-muted fw-light">/Month</small></h1>
-                                                  <label for="form-label">Chosse how many month activate profile</label>
+                                                  <label for="form-label">Choose how many month activate profile</label>
                                                   @php
                                                       $mounths = Auth::user()->ballance/Storage::disk('config')->get('price');
                                                   @endphp
                                                   <select class="form-select form-select-lg mb-3 @if ($profile->status) disabled @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif name="mounts">
-                                                    <option value="1" selected>Chosse how many month</option>
+                                                    <option value="1" selected>Choose how many month</option>
                                                     @for ($i = 1; $i <= $mounths; $i++)
                                                       <option value="{{$i}}">{{$i}} @if($i>1) Months @else Month @endif</option>
                                                     @endfor

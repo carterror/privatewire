@@ -17,7 +17,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('isadmin');
+        $this->middleware('isadmin')->except(['update']);
     }
 
     public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";

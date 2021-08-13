@@ -25,15 +25,14 @@
                       <h1>Downloads</h1>
                     </div>
                     <div class="card-body">
-                            
                             <div class="accordion accordion-flush" id="accordionFlushw">
                                 <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOnew">
-                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnew" aria-expanded="false" aria-controls="flush-collapseOnew">
+                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnew" aria-expanded="@if (Str::contains($so, 'Windows')) true  @else false @endif" aria-controls="flush-collapseOnew">
                                     <h2><i class="fab fa-windows"></i></span> Windows</h2>
                                     </button>
                                 </h2>
-                                <div id="flush-collapseOnew" class="accordion-collapse collapse" aria-labelledby="flush-headingOnew" data-bs-parent="#accordionFlushw">
+                                <div id="flush-collapseOnew" class="accordion-collapse collapse @if (Str::contains($so, 'Windows')) show  @else @endif" aria-labelledby="flush-headingOnew" data-bs-parent="#accordionFlushw">
                                     <div class="accordion-body">
                                         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
                                           @foreach ($windows as $w)
@@ -62,11 +61,11 @@
                               <div class="accordion accordion-flush" id="accordionFlushl">
                                 <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOnel">
-                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnel" aria-expanded="false" aria-controls="flush-collapseOnel">
+                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnel" aria-expanded="@if (Str::contains($so, 'Linux') == 0) true  @else false @endif" aria-controls="flush-collapseOnel">
                                     <h2><i class="fab fa-linux"></i></span> Linux</h2>
                                     </button>
                                 </h2>
-                                <div id="flush-collapseOnel" class="accordion-collapse collapse" aria-labelledby="flush-headingOnel" data-bs-parent="#accordionFlushl">
+                                <div id="flush-collapseOnel" class="accordion-collapse collapse @if (Str::contains($so, 'Linux')) show  @else @endif" aria-labelledby="flush-headingOnel" data-bs-parent="#accordionFlushl">
                                     <div class="accordion-body">
                                         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
                                           @foreach ($linux as $w)
@@ -95,11 +94,11 @@
                               <div class="accordion accordion-flush" id="accordionFlushm">
                                 <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOnem">
-                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnem" aria-expanded="false" aria-controls="flush-collapseOnem">
+                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnem" aria-expanded="@if (Str::contains($so, 'Mac') || Str::contains($so, 'iPhone') || Str::contains($so, 'iPad')) true  @else false @endif" aria-controls="flush-collapseOnem">
                                     <h2><i class="fab fa-apple"></i></span> Mac</h2>
                                     </button>
                                 </h2>
-                                <div id="flush-collapseOnem" class="accordion-collapse collapse" aria-labelledby="flush-headingOnem" data-bs-parent="#accordionFlushm">
+                                <div id="flush-collapseOnem" class="accordion-collapse collapse @if (Str::contains($so, 'Mac') || Str::contains($so, 'iPhone') || Str::contains($so, 'iPad')) show  @else @endif" aria-labelledby="flush-headingOnem" data-bs-parent="#accordionFlushm">
                                     <div class="accordion-body">
                                         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
                                           @foreach ($mac as $w)
@@ -128,11 +127,11 @@
                               <div class="accordion accordion-flush" id="accordionFlusha">
                                 <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOnea">
-                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnea" aria-expanded="false" aria-controls="flush-collapseOnea">
+                                    <button class="accordion-button collapsed bg-info text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOnea" aria-expanded="@if (Str::contains($so, 'Android')) true  @else false @endif" aria-controls="flush-collapseOnea">
                                     <h2><i class="fab fa-android"></i></span> Android</h2>
                                     </button>
                                 </h2>
-                                <div id="flush-collapseOnea" class="accordion-collapse collapse" aria-labelledby="flush-headingOnea" data-bs-parent="#accordionFlusha">
+                                <div id="flush-collapseOnea" class="accordion-collapse collapse @if (Str::contains($so, 'Android')) show  @else @endif" aria-labelledby="flush-headingOnea" data-bs-parent="#accordionFlusha">
                                     <div class="accordion-body">
                                         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
                                           @foreach ($android as $w)
