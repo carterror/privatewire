@@ -24,11 +24,11 @@
                   <input type="text" class="form-control" id="name" value="{{old('name')}}" name="name" placeholder="server">
                 </div>
                 <div class="form-group">
-                  <label for="range">Address IP</label>
+                  <label for="range">Private Address IP-Range</label>
                   <input type="text" class="form-control" id="range" value="{{old('range')}}" name="range" placeholder="192.168.0.1/24">
                 </div>
                 <div class="form-group">
-                  <label for="ip">Public IP</label>
+                  <label for="ip">Public IP or DNS</label>
                   <input type="text" class="form-control" id="ip" value="{{old('ip')}}" name="ip" placeholder="192.168.0.1">
                 </div>
                 <div class="form-group">

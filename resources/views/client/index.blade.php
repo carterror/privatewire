@@ -174,7 +174,7 @@
               </div>
             <div class="mb-3">
                 <label for="tx" class="form-label">Hash Transaction</label>
-                <input type="text" class="form-control" id="tx" name="tx" placeholder="2ds4-2h562-325r-fewr" required />
+                <input type="text" class="form-control" id="tx" name="tx" placeholder="5qwe68r4qwx48q648rxq8..." required />
             </div>
         </div>
         <div class="modal-footer">

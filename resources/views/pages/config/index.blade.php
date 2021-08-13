@@ -40,7 +40,7 @@
               <div class="card-body">
                 <div class="form-group">
                   <label for="hash">Hash Transaction</label>
-                  <input type="text" class="form-control" id="hash" name="hash" value="{{Storage::disk('config')->get('hash')}}" placeholder="2ds4-2h562-325r-fewr">
+                  <input type="text" class="form-control" id="hash" name="hash" value="{{Storage::disk('config')->get('hash')}}" placeholder="5qwe68r4qwx48q648rxq8...">
                 </div>
               </div>
               <div class="card-footer">
