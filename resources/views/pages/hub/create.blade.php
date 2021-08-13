@@ -34,7 +34,7 @@
 
                     @foreach ($servers as $server)
 
-                      <option value="{{$server->id}}">{{$server->name}}</option>
+                      <option value="{{$server->id}}">{{$server->loc}}</option>
 
                     @endforeach
 

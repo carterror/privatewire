@@ -44,6 +44,7 @@ Route::post('/contact', function (Request $request) {
 
 Route::get('client/', [HomeController::class, 'client'])->middleware('verified')->name('client');
 
+Route::get('client/download', [HomeController::class, 'download'])->name('download');
 Route::post('client/addfunds', [HomeController::class, 'addfunds'])->name('addfunds');
 Route::post('client/profile', [HomeController::class, 'profile'])->name('profile');
 Route::get('client/{id}/delete', [HomeController::class, 'delete'])->name('profile.delete');
@@ -75,3 +76,6 @@ Route::get('settings', [ConfigController::class, 'index'])->name('settings.index
 Route::post('settings/qr', [ConfigController::class, 'qr'])->name('settings.qr');
 Route::post('settings/hash', [ConfigController::class, 'hash'])->name('settings.hash');
 Route::post('settings/price', [ConfigController::class, 'price'])->name('settings.price');
+Route::get('settings/downloads', [ConfigController::class, 'getdownloads'])->name('settings.downloads');
+Route::post('settings/postdownloads', [ConfigController::class, 'postdownloads'])->name('settings.postdownloads');
+Route::get('settings/delete/{id}', [ConfigController::class, 'delete'])->name('settings.delete');

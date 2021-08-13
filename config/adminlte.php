@@ -291,6 +291,12 @@ return [
             'icon' => 'fas fa-fw fa-sitemap',
         ],
 
+        [
+            'text' => 'Downloads',
+            'route'  => 'settings.downloads',
+            'icon' => 'fas fa-fw fa-sitemap',
+        ],
+
         ['header' => ''],
         ['header' => 'By GoDjango'],
     ],

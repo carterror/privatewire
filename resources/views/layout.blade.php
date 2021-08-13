@@ -59,6 +59,7 @@
                                 @else
                                 <li class="nav-item"><a class="nav-link" href="{{route('client')}}">Manage</a></li>
                                 @endif
+                                <li class="nav-item"><a class="nav-link" href="{{route('download')}}">Download</a></li>
                                 <li class="nav-item"><a class="nav-link" href="javascript;" data-bs-toggle="modal" data-bs-target="#passModal">Change Password</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 <li class="nav-item dropdown">
@@ -101,9 +102,9 @@
             <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
-                        <h1 class="mx-auto my-0 text-uppercase" style="font-size: 2.0rem;">Private|WIRE</h1>
+                        <h1 class="mx-auto my-0 text-uppercase" style="font-size: 1.8rem;">Private|WIRE</h1>
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">WireGuard® is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography</h2>
-                        <a class="btn btn-primary" href="{{request()->routeIs('dashboard') ? route('client') : '#about'}}">BUY</a>
+                        <a class="btn btn-primary" href="@auth {{request()->routeIs('dashboard') ? route('client').'#about' : '#about'}} @else {{route('register')}} @endauth" style="color: #fff; font-size: 1.5rem; padding: 10px;">BUY<p style="color: #fff; font-size: 0.6rem">pay in usdt(trc-20)</p></a>
                     </div>
                 </div>
             </div>

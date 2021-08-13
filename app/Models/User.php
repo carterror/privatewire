@@ -23,6 +23,7 @@ class User extends Authenticatable
         'type',
         'ballance',
         'password',
+        'email_verified_at'
     ];
 
     /**

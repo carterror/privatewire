@@ -102,7 +102,7 @@ class HubController extends Controller
      */
     public function edit($user)
     {
-        $servers = Server::where('hubs', '>', 0)->where('status', 1)->distinct('loc')->select('loc')->get();
+        $servers = Server::where('hubs', '>', 0)->where('status', 1)->distinct('loc')->get();
 
         $user = User::find($user);
 

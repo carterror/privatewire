@@ -61,12 +61,16 @@ class UserController extends Controller
             "pass" => "required",
             "passv" => "required|same:pass"
         ]);
-        
-            User::create([
-                'email' => $request->email,
-                'password' => Hash::make($request->pass),
-                'email_verified_at' => now(),
+
+
+           $user = User::create([
+                'email' => $request->email,      
+                'password' => Hash::make($request->pass),        
             ]);
+
+            $user->forceFill([
+                'email_verified_at' => date('Y-m-d h:i:s'),
+            ])->save();
 
             return redirect()->route('users.index')->with(['type' => 'success'])->with(['message' => 'User created']);
     }

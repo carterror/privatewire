@@ -158,7 +158,7 @@ class ServerController extends Controller
     {
         $filename = storage_path('app/expire.log');
         if (!File::exists($filename)) {
-            return back()->with(['type' => 'error'])->with(['message' => 'Network log not exist']);
+            return back()->with(['type' => 'error'])->with(['message' => 'Expire log not exist']);
         }else {
             $server = 'Network';
             return view('pages.server.status', compact('filename', 'server')); 

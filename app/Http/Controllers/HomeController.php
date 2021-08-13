@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Download;
 use App\Models\Hub;
 use App\Models\Server;
 use App\Models\Tx;
@@ -53,6 +54,21 @@ class HomeController extends Controller
 
         return view('client.index', compact('profiles', 'locations'));
     }
+
+    public function download()
+    {
+        $downloads = Download::get();
+
+        $windows = $downloads->where('so', 'windows');
+
+        $linux = $downloads->where('so', 'linux');
+
+        $mac = $downloads->where('so', 'mac');
+
+        $android = $downloads->where('so', 'android');
+
+        return view('client.download', compact('windows', 'linux', 'mac', 'android'));
+    } 
 
     public function addfunds(Request $request)
     {

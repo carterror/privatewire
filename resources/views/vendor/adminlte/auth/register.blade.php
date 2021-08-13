@@ -11,7 +11,7 @@
     @php( $register_url = $register_url ? url($register_url) : '' )
 @endif
 
-@section('auth_header', __('adminlte::adminlte.register_message'))
+@section('auth_header', __('Register a new account'))
 
 @section('auth_body')
     <form action="{{ $register_url }}" method="post">
