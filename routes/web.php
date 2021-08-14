@@ -45,7 +45,7 @@ Route::post('/contact', function (Request $request) {
 Route::get('client/', [HomeController::class, 'client'])->middleware('verified')->name('client');
 
 Route::get('client/download', [HomeController::class, 'download'])->name('download');
-Route::post('client/addfunds', [HomeController::class, 'addfunds'])->name('addfunds');
+Route::post('client/addfunds/{wallet}', [HomeController::class, 'addfunds'])->name('addfunds');
 Route::post('client/profile', [HomeController::class, 'profile'])->name('profile');
 Route::get('client/{id}/delete', [HomeController::class, 'delete'])->name('profile.delete');
 Route::post('client/active/{hub}', [HomeController::class, 'active'])->name('active');

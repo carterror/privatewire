@@ -160,16 +160,19 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="fundsModalLabel">Add Founds</h5>
+          <h5 class="modal-title" id="fundsModalLabel">Add Founds "USDT (TRC-20)"</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="{{route('addfunds')}}" method="POST">
+        @php
+            $hash = Storage::disk('config')->get('hash');
+        @endphp
+        <form action="{{route('addfunds', Crypt::encrypt($hash))}}" method="POST">
           @csrf
         <div class="modal-body">
               <img src="{{asset('config/qr.png?v='.time())}}" class="card-img-top" alt="..." style="padding: 10px;">
               <div class="input-group mb-3">
                 <span class="input-group-text bg-secondary" style="font-size: 30px; padding: 5px 15px; color: #fff;"><i class="fas fa-qrcode"></i></span>
-                <input type="text" value="{{Storage::disk('config')->get('hash')}}" class="form-control" id="copied" aria-label="" style="border: none; font-size: 25px;" disabled>
+                <input type="text" value="{{$hash}}" class="form-control" id="copied" aria-label="" style="border: none; font-size: 25px;" disabled>
                 <span class="input-group-text btn btn-secondary btn-sm" onclick="setClipboardCard()" style="font-size: 30px; padding: 5px 15px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy"><i class="fas fa-clipboard"></i></span>
               </div>
             <div class="mb-3">

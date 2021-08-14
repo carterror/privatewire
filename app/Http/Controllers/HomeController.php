@@ -9,7 +9,9 @@ use App\Models\Tx;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -98,16 +100,17 @@ class HomeController extends Controller
         return view('client.download', compact('windows', 'linux', 'mac', 'android', 'so'));
     } 
 
-    public function addfunds(Request $request)
+    public function addfunds(Request $request, $wallet)
     {
 
         $request->validate([
-            'tx' => 'required',
-        ]);
-
+            'tx' => 'required|unique:txs',
+        ]);        
+        
         Tx::create([
             'email_user' => Auth::user()->email,
             'tx' => $request->tx,
+            'wallet' => Crypt::decrypt($wallet),
         ]);
 
         return back()->with(['type' => 'success'])->with(['message' => 'As soon as your transaction is validated, the founds you sent will be available']);

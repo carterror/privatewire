@@ -99,9 +99,11 @@ class ConfigController extends Controller
     
         $foto = $upload_path.'/'.$filename;
         
-        if(File::exists($foto)): File::delete($foto); endif;
+        //if(File::exists($foto.'.tmp')): File::delete($foto.'.tmp'); endif;
 
-        $request->qr->storeAs('/', $filename, 'config');
+        $request->qr->storeAs('/', $filename.'.tmp', 'config');
+
+        rename($foto.'.tmp', $foto);
 
         return back()->with(['type' => 'success'])->with(['message' => 'Qr updated']);
 
@@ -117,23 +119,9 @@ class ConfigController extends Controller
      */
     public function hash(Request $request)
     {
-        Storage::disk('config')->put('hash', $request->hash);
-
+        Storage::disk('config')->put('hash.tmp', $request->hash);
+        rename(public_path('config/hash.tmp'), public_path('config/hash'));
         return back()->with(['type' => 'success'])->with(['message' => 'Hash updated']);
-    }
-
-    public function email(Request $request)
-    {
-
-
-        return back()->with(['type' => 'success'])->with(['message' => 'Email updated']);
-    }
-
-    public function promo(Request $request)
-    {
-
-
-        return back()->with(['type' => 'success'])->with(['message' => 'Promo updated']);
     }
 
     /**
@@ -144,11 +132,14 @@ class ConfigController extends Controller
      */
     public function price(Request $request)
     {
-        Storage::disk('config')->put('price', $request->price);
+        Storage::disk('config')->put('price.tmp', $request->price);
+        rename(public_path('config/price.tmp'), public_path('config/price'));
 
-        Storage::disk('config')->put('email', $request->email);
-
-        Storage::disk('config')->put('promo', $request->promo);
+        Storage::disk('config')->put('email.tmp', $request->email);
+        rename(public_path('config/email.tmp'), public_path('config/email'));
+        
+        Storage::disk('config')->put('promo.tmp', $request->promo);
+        rename(public_path('config/promo.tmp'), public_path('config/promo'));
 
         return back()->with(['type' => 'success'])->with(['message' => 'Config updated']);
     }

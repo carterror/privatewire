@@ -17,7 +17,7 @@ class CreateTableTxs extends Migration
             $table->id();
             $table->string('email_user');
             $table->foreign('email_user')->references('email')->on('users')->onDelete('cascade');
-            $table->string('tx');
+            $table->string('tx')->unique();
             $table->timestamps();
         });
     }
