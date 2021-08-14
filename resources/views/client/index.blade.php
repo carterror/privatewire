@@ -169,11 +169,11 @@
               <img src="{{asset('config/qr.png?v='.time())}}" class="card-img-top" alt="..." style="padding: 10px;">
               <div class="input-group mb-3">
                 <span class="input-group-text bg-secondary" style="font-size: 30px; padding: 5px 15px; color: #fff;"><i class="fas fa-qrcode"></i></span>
-                <input type="text" value="{{Storage::disk('config')->get('hash')}}" class="form-control" id="copied" aria-label="" style="border: none; font-size: 25px;">
+                <input type="text" value="{{Storage::disk('config')->get('hash')}}" class="form-control" id="copied" aria-label="" style="border: none; font-size: 25px;" disabled>
                 <span class="input-group-text btn btn-secondary btn-sm" onclick="setClipboardCard()" style="font-size: 30px; padding: 5px 15px;" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy"><i class="fas fa-clipboard"></i></span>
               </div>
             <div class="mb-3">
-                <label for="tx" class="form-label">Hash Transaction</label>
+                <label for="tx" class="form-label">Transaction Hash</label>
                 <input type="text" class="form-control" id="tx" name="tx" placeholder="5qwe68r4qwx48q648rxq8..." required />
             </div>
         </div>
