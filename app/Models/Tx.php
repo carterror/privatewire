@@ -14,6 +14,7 @@ class Tx extends Model
     protected $fillable = [
         'email_user',
         'tx',
+        'wallet',
     ];
 
     public function user()
