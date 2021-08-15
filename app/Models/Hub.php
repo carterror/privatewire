@@ -16,6 +16,8 @@ class Hub extends Model
         'user_id',
     ];
 
+    protected $dates = ['billing'];
+
     public function server()
     {
         return $this->hasOne(Server::class, 'id', 'server_id');

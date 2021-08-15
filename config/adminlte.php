@@ -288,13 +288,13 @@ return [
         [
             'text' => 'Config',
             'route'  => 'settings.index',
-            'icon' => 'fas fa-fw fa-sitemap',
+            'icon' => 'fas fa-fw fa-tools',
         ],
 
         [
             'text' => 'Downloads',
             'route'  => 'settings.downloads',
-            'icon' => 'fas fa-fw fa-sitemap',
+            'icon' => 'fas fa-fw fa-download',
         ],
 
         ['header' => ''],

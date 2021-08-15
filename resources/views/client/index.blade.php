@@ -54,7 +54,8 @@
                                                     <li><h3>DNS: </h3></li>
                                                     <li><h5>{{$profile->dns}}</h5></li>
                                                     <li><h3>Expire</h3></li>
-                                                    <li><h5>{{($profile->billing > 0)? $profile->billing : '-'}}</h5></li>
+                                                    <li><h5>{{($profile->billing->format('Y') > 2010)? $profile->billing->format('Y-m-d') : '-'}}</h5></li>
+                                                    <li><p>In {{($profile->billing->format('Y') > 2010)? $profile->billing->diffForHumans() : '-'}}</p></li>
                                                     <li><h3>Location</h3></li>
                                                     <li><h5>{{$profile->server->loc}}</h5></li>
                                                   </ul>
@@ -99,14 +100,14 @@
                                                   @php
                                                       $mounths = Auth::user()->ballance/Storage::disk('config')->get('price');
                                                   @endphp
-                                                  <select class="form-select form-select-lg mb-3 @if ($profile->status) disabled @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif name="mounts">
+                                                  <select class="form-select form-select-lg mb-3 @if ($profile->status) disabled @endif" @if (Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif name="mounts">
                                                     <option value="1" selected>Choose how many month</option>
                                                     @for ($i = 1; $i <= $mounths; $i++)
                                                       <option value="{{$i}}">{{$i}} @if($i>1) Months @else Month @endif</option>
                                                     @endfor
                                                   </select>
                                                   
-                                                  <button type="submit" class="w-100 btn btn-lg btn-primary @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled  @endif" @if ($profile->status || Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif>Activate</button>
+                                                  <button type="submit" class="w-100 btn btn-lg btn-primary @if (Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif" @if (Auth::user()->ballance < Storage::disk('config')->get('price')) disabled @endif>Activate</button>
                                                   <a href="{{route('profile.delete', $profile->id)}}" class="w-100 btn btn-lg btn-danger delete" style="margin-top: 10px;">Delete</a>
                                                   </form>
                                                 </div>

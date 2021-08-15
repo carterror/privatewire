@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -105,8 +106,11 @@ class HomeController extends Controller
 
         $request->validate([
             'tx' => 'required|unique:txs',
-        ]);        
-        
+            ], 
+            [
+                'tx.unique' => 'This transaction hash has already been used',
+            ]);   
+
         Tx::create([
             'email_user' => Auth::user()->email,
             'tx' => $request->tx,
@@ -194,7 +198,13 @@ class HomeController extends Controller
 
             $hub = Hub::with(['server'])->findorfail($id);
 
-            $date = date('Y-m-d', strtotime('+ '.$request->mounts.' Month'));
+            if (date('Y-m-d') < $hub->billing) {
+                $date = Carbon::parse($hub->billing);
+                $date = $date->addMonth($request->mounts); 
+            } else {
+                $date = Carbon::now();
+                $date = $date->addMonth($request->mounts);
+            }
 
             $hub->billing = $date;
             $hub->status = 1;
