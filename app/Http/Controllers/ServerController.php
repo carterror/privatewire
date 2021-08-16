@@ -60,7 +60,7 @@ class ServerController extends Controller
         ]);
 
         if (!Str::endsWith($request->name, '.conf')) {
-            return back()->with(['type' => 'error'])->with(['message' => 'The name must end in ".conf"']);
+            return back()->with(['type' => 'error'])->with(['message' => 'The name must end in ".conf"'])->withInput();
         }
 
         $range = substr($request->range, -2);
