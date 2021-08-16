@@ -54,7 +54,7 @@ class HomeController extends Controller
     {
         $profiles = Hub::with(['server'])->where('user_id', Auth::user()->id)->get();
 
-        $locations = Server::where('hubs', '>', 1)->where('status', 1)->distinct('loc')->select('loc')->get();
+        $locations = Server::where('hubs', '>', 0)->where('status', 1)->distinct('loc')->select('loc')->get();
 
         return view('client.index', compact('profiles', 'locations'));
     }
@@ -128,7 +128,7 @@ class HomeController extends Controller
             'loc' => 'required',
         ]);
 
-        $server = Server::where('loc', $request->loc)->where('hubs', '>', 1)->where('status', 1);
+        $server = Server::where('loc', $request->loc)->where('hubs', '>', 0)->where('status', 1);
         
         if ($server->count()) {
 
