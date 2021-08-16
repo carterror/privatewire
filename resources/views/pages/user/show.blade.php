@@ -46,7 +46,7 @@
                             <form action="{{route('billing', $hub)}}" method="POST">
                               @csrf
                               <td>
-                                <input class="form-control" type="date" value="{{$hub->billing}}" name="billing" style="min-width: 50px !important;">
+                                <input class="form-control" type="date" value="{{$hub->billing->format('Y-m-d')}}" name="billing" style="min-width: 50px !important;">
                               </td><td>
                                 <button type="submit" class="form-control btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Change">
                                   <i class="fas fa-fw fa-check"></i>

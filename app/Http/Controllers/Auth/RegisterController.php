@@ -67,12 +67,6 @@ class RegisterController extends Controller
     {
         $promo = Storage::disk('config')->get('promo');
         
-        if ($promo == 0) {
-            Session::flash('message', 'Welcome, a verification email has been sent to you');
-        } else {
-            Session::flash('message', 'Welcome, a verification email has been sent to you. Congratulations, your account was rewarded with $'.$promo);
-        }
-        
         return User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
