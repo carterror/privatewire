@@ -128,7 +128,7 @@ class HomeController extends Controller
             'loc' => 'required',
         ]);
 
-        $server = Server::where('loc', $request->loc)->where('hubs', '>', 1)->where('status', 1);
+        $server = Server::where('loc', $request->loc)->where('hubs', '>', 0)->where('status', 1);
         
         if ($server->count()) {
 
