@@ -72,7 +72,7 @@ class ServerController extends Controller
             return back()->with(['type' => 'error'])->with(['message' => 'The range ip, is incorrect']);
         }
 
-        $ips = pow(2 ,(32-$range))-2;
+        $ips = pow(2 ,(32-$range))-2-1; //-1 ip server
 
         $archivo = public_path('serverslist/'.Str::slug($request->name));
 
