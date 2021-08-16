@@ -151,13 +151,16 @@ class UserController extends Controller
         $user = User::find($id);
         $email = $user->email;
         $hubs = Hub::where('user_id', $user->id)->orderBy('server_id', 'asc')->get();
-
+        
         if ($user->delete()) {
 
             foreach ($hubs as $hub) {
 
                     $server = Server::find($hub->server_id);
-
+                
+                    $server->hubs++;
+                    $server->save();
+                    
                     $host = " ".$this->dns." wgtool /etc/wireguard/";
 
                     exec($this->bin.$host." useroff ".$server->name." ".$hub->name, $r);
