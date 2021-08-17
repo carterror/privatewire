@@ -46,7 +46,7 @@
                                                     <input class="col s12" id="copy{{$w->id}}" style="margin: 5px; padding: 15px; border-radius: 5px; text-align: justify; color: #fff; border: 2px solid rgb(70, 70, 70); background-color: rgb(90, 90, 90);" value="{{$w->code}}" />
                                                     <button class="w-100 btn btn-lg btn-info" onclick="setClipboardd({{$w->id}})">Copy Now</button>
                                                   @else
-                                                    <a href="{{asset('config/'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
+                                                    <a href="{{route('confload', 'wire'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
                                                   @endif
                                                 </div>
                                               </div>
@@ -79,7 +79,7 @@
                                                     <input class="col s12" id="copy{{$w->id}}" style="margin: 5px; padding: 15px; border-radius: 5px; text-align: justify; color: #fff; border: 2px solid rgb(70, 70, 70); background-color: rgb(90, 90, 90);" value="{{$w->code}}" />
                                                     <button class="w-100 btn btn-lg btn-info" onclick="setClipboardd({{$w->id}})">Copy Now</button>
                                                   @else
-                                                    <a href="{{asset('config/'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
+                                                    <a href="{{route('confload', 'wire'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
                                                   @endif
                                                 </div>
                                               </div>
@@ -112,7 +112,7 @@
                                                     <input class="col s12" id="copy{{$w->id}}" style="margin: 5px; padding: 15px; border-radius: 5px; text-align: justify; color: #fff; border: 2px solid rgb(70, 70, 70); background-color: rgb(90, 90, 90);" value="{{$w->code}}" />
                                                     <button class="w-100 btn btn-lg btn-info" onclick="setClipboardd({{$w->id}})">Copy Now</button>
                                                   @else
-                                                    <a href="{{asset('config/'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
+                                                    <a href="{{route('confload', 'wire'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
                                                   @endif
                                                 </div>
                                               </div>
@@ -145,7 +145,7 @@
                                                     <input class="col s12" style="margin: 5px; padding: 15px; border-radius: 5px; text-align: justify; color: #fff; border: 2px solid rgb(70, 70, 70); background-color: rgb(90, 90, 90);" value="{{$w->code}}" />
                                                     <button href="{{asset('config/'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</button>
                                                   @else
-                                                    <a href="{{asset('config/'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
+                                                    <a href="{{route('confload', 'wire'.$w->path)}}" class="w-100 btn btn-lg btn-info">Download Now</a>
                                                   @endif
                                                 </div>
                                               </div>

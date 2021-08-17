@@ -3,6 +3,7 @@
 /public/storage
 /public/serverlist/*
 /storage/*.key
+/storage/*.exe
 /storage/serverslist
 /vendor
 .env.backup

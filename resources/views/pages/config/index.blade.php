@@ -54,7 +54,7 @@
             <form action="{{route('settings.qr')}}" method="post" enctype="multipart/form-data">
               @csrf
               <div class="card-header">{{ __('QR Code') }}</div>
-              <img src="{{asset('config/qr.png?v='.time())}}" class="card-img-top" alt="..." style="padding: 20px;">
+              <img src="{{route('confimage', 'qr')}}" class="card-img-top" alt="..." style="padding: 20px;">
               <div class="card-body">
                     <div class="form-group">
                       {{-- <label for="exampleInputFile"></label> --}}

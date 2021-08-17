@@ -170,7 +170,7 @@
         <form action="{{route('addfunds', Crypt::encrypt($hash))}}" method="POST">
           @csrf
         <div class="modal-body">
-              <img src="{{asset('config/qr.png?v='.time())}}" class="card-img-top" alt="..." style="padding: 10px;">
+              <img src="{{route('confimage', 'qr')}}" class="card-img-top" alt="..." style="padding: 10px;">
               <div class="input-group mb-3">
                 <span class="input-group-text bg-secondary" style="font-size: 30px; padding: 5px 15px; color: #fff;"><i class="fas fa-qrcode"></i></span>
                 <input type="text" value="{{$hash}}" class="form-control" id="copied" aria-label="" style="border: none; font-size: 25px;" disabled>

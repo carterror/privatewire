@@ -120,7 +120,7 @@ class ConfigController extends Controller
     public function hash(Request $request)
     {
         Storage::disk('config')->put('hash.tmp', $request->hash);
-        rename(public_path('config/hash.tmp'), public_path('config/hash'));
+        rename(storage_path('config/hash.tmp'), storage_path('config/hash'));
         return back()->with(['type' => 'success'])->with(['message' => 'Hash updated']);
     }
 
@@ -133,13 +133,13 @@ class ConfigController extends Controller
     public function price(Request $request)
     {
         Storage::disk('config')->put('price.tmp', $request->price);
-        rename(public_path('config/price.tmp'), public_path('config/price'));
+        rename(storage_path('config/price.tmp'), storage_path('config/price'));
 
         Storage::disk('config')->put('email.tmp', $request->email);
-        rename(public_path('config/email.tmp'), public_path('config/email'));
+        rename(storage_path('config/email.tmp'), storage_path('config/email'));
         
         Storage::disk('config')->put('promo.tmp', $request->promo);
-        rename(public_path('config/promo.tmp'), public_path('config/promo'));
+        rename(storage_path('config/promo.tmp'), storage_path('config/promo'));
 
         return back()->with(['type' => 'success'])->with(['message' => 'Config updated']);
     }

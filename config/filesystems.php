@@ -44,7 +44,7 @@ return [
 
         'config' => [
             'driver' => 'local',
-            'root' => public_path('config'),
+            'root' => storage_path('config'),
         ],
 
         's3' => [

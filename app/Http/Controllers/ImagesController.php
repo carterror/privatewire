@@ -15,18 +15,37 @@ class ImagesController extends Controller
 
     public function confload($id)
     {
-        $profile = Hub::with(['user', 'server'])->findOrFail($id);
+        if (Str::contains($id, 'wire')) {
 
-        return Response::download(storage_path('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf'));
+            return Response::download(storage_path('config/'.Str::substr($id, 4)));
+            
+        } else {
+            $profile = Hub::with(['user', 'server'])->findOrFail($id);
+
+            return Response::download(storage_path('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf'));
+        }
+         
     }
 
     public function confimage($id, $size = 40)
     {
-        $profile = Hub::with(['user', 'server'])->findOrFail($id);
+        if ($id == 'qr') {
 
-        $image = storage_path('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf.png');
+            $image = storage_path('config/qr.png');
+    
+            return Image::fromFile($image);
 
-        return Image::fromFile($image);
+        } else {
+
+            $profile = Hub::with(['user', 'server'])->findOrFail($id);
+
+            $image = storage_path('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf.png');
+    
+            return Image::fromFile($image);
+
+        }
+        
+
     }
 
     
