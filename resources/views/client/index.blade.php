@@ -37,7 +37,7 @@
                                 <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne">
                                     <button class="accordion-button collapsed @if ($profile->status) bg-success @else bg-danger @endif text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne{{$profile->id}}" aria-expanded="false" aria-controls="flush-collapseOne{{$profile->id}}">
-                                    <h2>{{$profile->name}}</h2>
+                                    <h2><i class="fas fa-server"></i> {{$profile->name}}</h2>
                                     </button>
                                 </h2>
                                 <div id="flush-collapseOne{{$profile->id}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlush{{$profile->id}}">
