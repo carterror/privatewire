@@ -77,7 +77,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                   <img src="{{asset('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf.png')}}" class="card-img-top" alt="...">
-                                                  <a href="{{asset('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf.zip')}}" class="w-100 btn btn-lg btn-primary">Download Config</a>
+                                                  <a href="{{asset('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf')}}" class="w-100 btn btn-lg btn-primary">Download Config</a>
                                                 </div>
                                               </div>
                                             </div>

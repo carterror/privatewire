@@ -153,6 +153,7 @@ class HubController extends Controller
         // return dd($r);
         exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r);
         exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip", $r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf", $r);
 
         if (!$r) {
 
