@@ -18,9 +18,8 @@ class HubController extends Controller
         $this->middleware('isadmin');
     }
 
-    public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
+    public $bin = "wgtool_netw ./../storage/app/net_log /etc/wgtool_netw/pubkey.pem";
     public $path = "/var/wgtool/";
-    public $dns = "localhost"; // Hosting prueba
     /**
      * Display a listing of the resource.
      *
@@ -83,7 +82,7 @@ class HubController extends Controller
             $action = 'useron';
         }
 
-        $host = " ".$this->dns." wgtool /etc/wireguard/";
+        $host = " ".$server->ip." wgtool /etc/wireguard/";
 
         exec($this->bin.$host." ".$action." ".$server->name." ".$hub->name, $r);
         //                         useron      wgX.conf            bill
@@ -128,32 +127,32 @@ class HubController extends Controller
 
         $user = User::find($user);
 
-        $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email));
+        $archivo = storage_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email));
 
         if (!File::exists($archivo)) {
             mkdir($archivo);
         }
 
-        $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($request->name));
+        $archivo = storage_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($request->name));
 
         if (!File::exists($archivo)) {
             mkdir($archivo);
         }
 
-        exec($this->bin." ".$this->dns." mkdir -p ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name), $r);
+        exec($this->bin." ".$server->ip." mkdir -p ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name), $r);
 
-        $host = " ".$this->dns." wgtool /etc/wireguard/";
+        $host = " ".$server->ip." wgtool /etc/wireguard/";
 
         exec($this->bin.$host." adduser ".$server->name." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/ ".$request->name." ".$request->dns, $r);
                         //    adduser      wgX.conf         /dir-for-user-profile                                                                        bill             8.8.8.8  
         
         exec($this->bin.$host." useroff ".$server->name." ".$request->name, $r5);
         
-        $getfile = " ".$this->dns." build-in:getfile";
+        $getfile = " ".$server->ip." build-in:getfile";
         // return dd($r);
-        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r);
-        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip", $r);
-        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf ./serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf", $r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./../storage/serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip ./../storage/serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip", $r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf ./../storage/serverslist/".Str::slug($server->name)."/".Str::slug($user->email)."/".Str::slug($request->name)."/".$request->name.".conf", $r);
 
         if (!$r) {
 
@@ -188,9 +187,9 @@ class HubController extends Controller
 
         $user = User::find($hub->user_id);
 
-        $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($hub->name));
+        $name = storage_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($hub->name));
 
-        $host = " ".$this->dns." wgtool /etc/wireguard/";
+        $host = " ".$server->ip." wgtool /etc/wireguard/";
 
         exec($this->bin.$host." useroff ".$server->name." ".$hub->name, $r);
 

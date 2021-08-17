@@ -20,9 +20,8 @@ class UserController extends Controller
         $this->middleware('isadmin')->except(['update']);
     }
 
-    public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
+    public $bin = "wgtool_netw ./../storage/app/net_log /etc/wgtool_netw/pubkey.pem";
     public $path = "/var/wgtool/";
-    public $dns = "localhost"; // Hosting prueba
 
     /**
      * Display a listing of the resource.
@@ -161,13 +160,13 @@ class UserController extends Controller
                     $server->hubs++;
                     $server->save();
                     
-                    $host = " ".$this->dns." wgtool /etc/wireguard/";
+                    $host = " ".$server->ip." wgtool /etc/wireguard/";
 
                     exec($this->bin.$host." useroff ".$server->name." ".$hub->name, $r);
 
                     exec($this->bin.$host." deluser ".$server->name." ".$hub->name, $r);
 
-                    $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($email));
+                    $name = storage_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($email));
         
                     if (File::exists($name)) {
                         File::deleteDirectory($name);

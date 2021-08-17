@@ -29,7 +29,7 @@ class HomeController extends Controller
         $this->middleware('isadmin')->only('index');
         $this->middleware('verified');  
     }
-    public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
+    public $bin = "wgtool_netw ./../storage/app/net_log /etc/wgtool_netw/pubkey.pem";
     public $path = "/var/wgtool/";
     public $dns = "localhost"; // Hosting prueba
     /**
@@ -134,13 +134,13 @@ class HomeController extends Controller
 
             $server = $server->first();
 
-            $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug(Auth::user()->email));
+            $archivo = storage_path('serverslist/'.Str::slug($server->name).'/'.Str::slug(Auth::user()->email));
 
             if (!File::exists($archivo)) {
                 mkdir($archivo);
             }
     
-            $archivo = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($request->name));
+            $archivo = storage_path('serverslist/'.Str::slug($server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($request->name));
     
             if (!File::exists($archivo)) {
                 mkdir($archivo);
@@ -156,9 +156,9 @@ class HomeController extends Controller
                                                                                                                     
             $getfile = " ".$this->dns." build-in:getfile";
             // return dd($r);
-            exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./serverslist/".Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r3);
-            exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip ./serverslist/".Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip", $r4);
-            
+            exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.png ./../storage/serverslist/".Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.png", $r3);
+            exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip ./../storage/serverslist/".Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf.zip", $r4);
+            exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf ./../storage/serverslist/".Str::slug($server->name)."/".Str::slug(Auth::user()->email)."/".Str::slug($request->name)."/".$request->name.".conf", $r4);
 
             if (!$r1 && !$r2 && !$r3 && !$r4 && !$r5) {
 
@@ -238,7 +238,7 @@ class HomeController extends Controller
 
         $user = User::find($hub->user_id);
 
-        $name = public_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($hub->name));
+        $name = storage_path('serverslist/'.Str::slug($server->name).'/'.Str::slug($user->email).'/'.Str::slug($hub->name));
 
         $host = " ".$this->dns." wgtool /etc/wireguard/";
 

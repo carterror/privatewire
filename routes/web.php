@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HubController;
+use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\UserController;
 use App\Mail\Contact;
@@ -43,6 +44,9 @@ Route::post('/contact', function (Request $request) {
 })->name('contact');
 
 Route::get('client/', [HomeController::class, 'client'])->middleware('verified')->name('client');
+
+Route::get('client/conf/{id}/download', [ImagesController::class, 'confload'])->name('confload');
+Route::get('client/conf/{id}/image', [ImagesController::class, 'confimage'])->name('confimage');
 
 Route::get('client/download', [HomeController::class, 'download'])->name('download');
 Route::post('client/addfunds/{wallet}', [HomeController::class, 'addfunds'])->name('addfunds');

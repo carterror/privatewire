@@ -17,9 +17,8 @@ class ServerController extends Controller
         $this->middleware('isadmin');
     }
 
-    public $bin = "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem";
+    public $bin = "wgtool_netw ./../storage/app/net_log /etc/wgtool_netw/pubkey.pem";
     public $path = "/var/wgtool/";
-    public $dns = "localhost"; // Hosting prueba
     /**
      * Display a listing of the resource.
      *
@@ -74,11 +73,9 @@ class ServerController extends Controller
 
         $ips = pow(2 ,(32-$range))-2-1; //-1 ip server
 
-        $archivo = public_path('serverslist/'.Str::slug($request->name));
+        $archivo = storage_path('serverslist/'.Str::slug($request->name));
 
-        $this->dns=" localhost";
-
-        $host = $this->dns." wgtool /etc/wireguard/";
+        $host = " ".$request->ip." wgtool /etc/wireguard/";
        // exec( "wgtool_netw ./net_log /etc/wgtool_netw/pubkey.pem localhost wgtool /etc/wireguard/ serverrule carter234.conf 10.0.11.14/29 eth0 add", $r);
        // return $r;
         exec($this->bin.$host." addserver ".$request->name." ".$request->range." ".$request->port." ".$request->ip, $r);
@@ -125,17 +122,17 @@ class ServerController extends Controller
     public function show(Server $server)
     {
 
-        exec($this->bin." ".$this->dns." mkdir -p ".$this->path.Str::slug($server->name), $r);
+        exec($this->bin." ".$server->ip." mkdir -p ".$this->path.Str::slug($server->name), $r);
 
-        $host = " ".$this->dns." wgtool /etc/wireguard/";
+        $host = " ".$server->ip." wgtool /etc/wireguard/";
 
         exec($this->bin.$host." getlog ".$server->name." ".$this->path.Str::slug($server->name)."/server.log", $r);
 
-        $getfile = " ".$this->dns." build-in:getfile";
+        $getfile = " ".$server->ip." build-in:getfile";
 
-        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/server.log ./serverslist/".Str::slug($server->name)."/server.log", $r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/server.log ./../storage/serverslist/".Str::slug($server->name)."/server.log", $r);
         
-        $filename = public_path('serverslist/'.Str::slug($server->name).'/server.log');
+        $filename = storage_path('serverslist/'.Str::slug($server->name).'/server.log');
 
         $server = $server->name;
 
@@ -144,7 +141,7 @@ class ServerController extends Controller
 
     public function netlog()
     {
-        $filename = public_path('net_log');
+        $filename = storage_path('app/net_log');
         if (!File::exists($filename)) {
             return back()->with(['type' => 'error'])->with(['message' => 'Network log not exist']);
         }else {
@@ -169,17 +166,17 @@ class ServerController extends Controller
     public function serverop(Server $server, $id)
     {
 
-        exec($this->bin." ".$this->dns." mkdir -p ".$this->path.Str::slug($server->name), $r);
+        exec($this->bin." ".$server->ip." mkdir -p ".$this->path.Str::slug($server->name), $r);
 
-        $host = " ".$this->dns." wgtool /etc/wireguard/";
+        $host = " ".$server->ip." wgtool /etc/wireguard/";
 
         exec($this->bin.$host." serverop ".$server->name." ".$id." ".$this->path.Str::slug($server->name)."/stdout.log", $r);
                     //        1 serverop  2 wgX.conf        3 (start | stop | restart | status | enable | disable) 4 (./stdout.log | -)
-        $getfile = " ".$this->dns." build-in:getfile";
+        $getfile = " ".$server->ip." build-in:getfile";
         // return dd($r);
-        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/stdout.log ./serverslist/".Str::slug($server->name)."/stdout.log", $r);
+        exec($this->bin.$getfile." ".$this->path.Str::slug($server->name)."/stdout.log ./../storage/serverslist/".Str::slug($server->name)."/stdout.log", $r);
 
-        $filename = public_path('serverslist/'.Str::slug($server->name).'/stdout.log');
+        $filename = storage_path('serverslist/'.Str::slug($server->name).'/stdout.log');
 
         if ($id=="status") {
             $server = $server->name;
@@ -234,13 +231,13 @@ class ServerController extends Controller
     {
         $server = Server::find($id);
 
-        $name = public_path('serverslist/'.Str::slug($server->name));
+        $name = storage_path('serverslist/'.Str::slug($server->name));
 
         if ($server->delete()) {
 
             $this->serverop($server, 'stop');
 
-            $host = " ".$this->dns." wgtool /etc/wireguard/";
+            $host = " ".$server->ip." wgtool /etc/wireguard/";
 
             exec($this->bin.$host." serverrule ".$server->name." ".$server->range." ".$server->nat." del", $r);
             //              serverrule      wgX.conf          10.0.0.1/24         eth0        (add | del)

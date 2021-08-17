@@ -76,8 +76,8 @@
                                                   <h4 class="my-0 fw-normal">Configurations</h4>
                                                 </div>
                                                 <div class="card-body">
-                                                  <img src="{{asset('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf.png')}}" class="card-img-top" alt="...">
-                                                  <a href="{{asset('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf')}}" class="w-100 btn btn-lg btn-primary">Download Config</a>
+                                                  <img src="{{route('confimage', $profile->id)}}" class="card-img-top" alt="...">
+                                                  <a href="{{route('confload', $profile->id)}}" class="w-100 btn btn-lg btn-primary">Download Config</a>
                                                 </div>
                                               </div>
                                             </div>
