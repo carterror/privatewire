@@ -107,7 +107,7 @@
                     </table>
                   </div>
                   <div class="card-footer">
-                    {{$servers->links()}}
+                    {{$servers->links('vendor.adminlte.pagination.bootstrap-4')}}
                   </div>
             </div>
         </div>

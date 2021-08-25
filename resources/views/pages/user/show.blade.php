@@ -79,7 +79,7 @@
                     </table>
                   </div>
                   <div class="card-footer">
-                    {{$hubs->links()}}
+                    {{$hubs->links('vendor.adminlte.pagination.bootstrap-4')}}
                   </div>
             </div>
         </div>

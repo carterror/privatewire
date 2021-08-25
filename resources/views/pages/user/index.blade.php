@@ -71,7 +71,7 @@
                     </table>
                   </div>
                   <div class="card-footer">
-                    {{$users->links()}}
+                    {{$users->links('vendor.adminlte.pagination.bootstrap-4')}}
                   </div>
             </div>
         </div>
