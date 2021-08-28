@@ -201,7 +201,7 @@
           @csrf
         <div class="modal-body">
             <div class="mb-3">
-                <label for="wallet" class="form-label">Public Address <span style="color: #7464a1; font-weight: bold;" data-bs-toggle="tooltip" data-bs-placement="top" title="This is the address you use yo receive">?</span></label>
+                <label for="wallet" class="form-label">Set Wallet Public Address <span style="color: #7464a1; font-weight: bold; font-size: 25px; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="This is the address you use yo receive. You Can change it in the Set Wallet menu option"><i class="fas fa-info-circle"></i></span></label>
                 <input type="text" class="form-control" id="wallet" name="wallet" required />
             </div>
         </div>

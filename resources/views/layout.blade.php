@@ -60,6 +60,7 @@
                                 @else
                                 <li class="nav-item"><a class="nav-link" href="{{route('client').'#about'}}">Manage</a></li>
                                 @endif
+                                <li class="nav-item"><a class="nav-link" href="javascript;" data-bs-toggle="modal" data-bs-target="#walletModal">Set Wallet</a></li>
                                 <li class="nav-item"><a class="nav-link" href="javascript;" data-bs-toggle="modal" data-bs-target="#passModal">Change Password</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
                                 <li class="nav-item dropdown">
@@ -68,12 +69,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                   <li><a class="dropdown-item" href="{{route('dashboard')}}">Home</a></li>
-                                  <li><a class="dropdown-item" href="{{route('download').'#about'}}">Download</a></li>
-                                    @if (Auth::user()->type)
-                                    <li><a class="dropdown-item" href="{{route('admin')}}">Manage</a></li>
-                                    @else
-                                    <li><a class="dropdown-item" href="{{route('client')}}">Manage</a></li>
-                                    @endif
+                                    <li><a href="javascript;" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#walletModal">Set Wallet</a></li>
                                     <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passModal" >Change Password</button></li>
                                     {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passModal">New Profile</button> --}}
                                   <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >Log out</a></li>
@@ -195,7 +191,7 @@
   </div>
 
         <!-- Footer-->
-        <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">By GoDjango 2021</div></footer>
+        <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">By GoDjango 2021, <a href="">Terms of service</a></div></footer>
         <!-- Bootstrap core JS-->
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.me.min.js') }}"></script>
