@@ -113,11 +113,32 @@ class HomeController extends Controller
 
         Tx::create([
             'email_user' => Auth::user()->email,
+            'src_wallet' => Auth::user()->wallet,
             'tx' => $request->tx,
             'wallet' => Crypt::decrypt($wallet),
         ]);
 
         return back()->with(['type' => 'success'])->with(['message' => 'As soon as your transaction is validated, the founds you sent will be available']);
+
+    }
+
+    public function addwallet(Request $request)
+    {
+
+        $request->validate([
+            'wallet' => 'required|unique:txs',
+            ], 
+            [
+                'wallet.unique' => 'This wallet has already been used',
+            ]);   
+
+            $user = User::find(Auth::user()->id);
+
+            $user->wallet = $request->wallet;
+
+            if ($user->save()) {
+                return back()->with(['type' => 'success'])->with(['message' => 'This wallet saved']);
+            }
 
     }
 

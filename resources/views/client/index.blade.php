@@ -4,7 +4,7 @@
 
 @section('content')
         <!-- About-->
-        
+
         <section class="about-section text-center" id="about">
             <div style="margin-top: -180px;"><a href="#about" style="padding: 10px; color: #fff; font-size: 50px;"><i class="fas fa-chevron-down"></i></a></div>
             <div class="container">
@@ -13,7 +13,7 @@
                   <h2 style="color: #fff;">{{Auth::user()->email}} <span class="badge bg-secondary">${{Auth::user()->ballance}}</span></h2>
                 </div>
                 <div class="col-md-4">
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fundsModal">Add Founds</button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="@if(is_null(Auth::user()->wallet)) #walletModal @else #fundsModal @endif">Add Founds</button>
                 </div>
               </div>
             </div>
@@ -184,6 +184,30 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{-- modal wallet --}}
+  <div class="modal fade" id="walletModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="walletModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="walletModalLabel">Your Wallet</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{route('addwallet')}}" method="POST">
+          @csrf
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="wallet" class="form-label">Public Address <span style="color: #7464a1; font-weight: bold;" data-bs-toggle="tooltip" data-bs-placement="top" title="This is the address you use yo receive">?</span></label>
+                <input type="text" class="form-control" id="wallet" name="wallet" required />
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
         </form>
       </div>

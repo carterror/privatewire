@@ -15,6 +15,7 @@ class Tx extends Model
         'email_user',
         'tx',
         'wallet',
+        'src_wallet',
     ];
 
     public function user()

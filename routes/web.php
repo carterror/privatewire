@@ -50,6 +50,7 @@ Route::get('client/conf/{id}/image', [ImagesController::class, 'confimage'])->na
 
 Route::get('client/download', [HomeController::class, 'download'])->name('download');
 Route::post('client/addfunds/{wallet}', [HomeController::class, 'addfunds'])->name('addfunds');
+Route::post('client/addwallet', [HomeController::class, 'addwallet'])->name('addwallet');
 Route::post('client/profile', [HomeController::class, 'profile'])->name('profile');
 Route::get('client/{id}/delete', [HomeController::class, 'delete'])->name('profile.delete');
 Route::post('client/active/{hub}', [HomeController::class, 'active'])->name('active');
