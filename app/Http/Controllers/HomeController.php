@@ -118,7 +118,7 @@ class HomeController extends Controller
             'wallet' => Crypt::decrypt($wallet),
         ]);
 
-        return back()->with(['type' => 'success'])->with(['message' => 'As soon as your transaction is validated, the founds you sent will be available. It could take severals minutes.']);
+        return back()->with(['type' => 'success'])->with(['message' => 'As soon as your transaction is validated, the founds you sent will be available. It could take several minutes.']);
 
     }
 
