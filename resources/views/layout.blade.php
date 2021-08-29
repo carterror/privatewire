@@ -189,6 +189,30 @@
       </div>
     </div>
   </div>
+    {{-- modal wallet --}}
+    <div class="modal fade" id="walletModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="walletModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="walletModalLabel">Your Wallet</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{route('addwallet')}}" method="POST">
+              @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="wallet" class="form-label">Set Wallet Public Address <span style="color: #7464a1; font-weight: bold; font-size: 25px; margin-left: 10px;" data-bs-toggle="tooltip" data-bs-placement="top" title="This is the address you use yo receive. You Can change it in the Set Wallet menu option"><i class="fas fa-info-circle"></i></span></label>
+                    <input type="text" class="form-control" id="wallet" name="wallet" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">By GoDjango 2021, <a href="">Terms of service</a></div></footer>
