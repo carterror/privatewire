@@ -22,7 +22,7 @@ class ImagesController extends Controller
         } else {
             $profile = Hub::with(['user', 'server'])->findOrFail($id);
             $conf = storage_path('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf');
-            $header = ['Content-Type' => mime_content_type($conf)];
+            $header = ['Content-Type' => 'application/octet-stream'];
             return Response::download($conf, $profile->name.'.conf', $header);
         }
          
