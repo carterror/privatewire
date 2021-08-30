@@ -21,8 +21,9 @@ class ImagesController extends Controller
             
         } else {
             $profile = Hub::with(['user', 'server'])->findOrFail($id);
-
-            return Response::download(storage_path('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf'));
+            $conf = storage_path('serverslist/'.Str::slug($profile->server->name).'/'.Str::slug(Auth::user()->email).'/'.Str::slug($profile->name).'/'.$profile->name.'.conf');
+            $header = ['Content-Type' => mime_content_type($conf)];
+            return Response::download($conf, $header);
         }
          
     }
