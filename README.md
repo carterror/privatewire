@@ -1,4 +1,4 @@
-# privatewire
+# PrivateWire
  
 ![image](https://github.com/carterror/privatewire/assets/22793175/f6d73751-c6f5-44ea-b9b5-f3a522643b01)
 
@@ -9,7 +9,9 @@ localizaciones
 - Configurar opcionalmente una billetera de criptomonedas para el registro y cobro automático de usuarios anónimos
 
   Puede definir un monto inicial de promoción USDT-TRC20.
+  
 Reciba pagos en dicho token en su billetera. El sistema asignara el saldo equivalente automáticamente al usuario.
+
 Si utiliza PRIVATEWIRE para su empresa, tenga a todos los empleados que desee en la misma LAN y segmentada por departamentos si así lo estima. Para la comunicación cifrada utiliza el protocolo wireguard.
 
 ``` * PrivateWire utiliza internamente el protocolo EPOCH. Disponible open source en el sitio de GoDjango en GitHub. ```
