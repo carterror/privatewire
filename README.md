@@ -24,9 +24,7 @@ por mes y una promoción en saldo opcional.
 para finalmente ser usados.
 
 ![image](https://github.com/carterror/privatewire/assets/22793175/0d910d98-2698-417d-888e-2ace8cd86297)
-
 ![image](https://github.com/carterror/privatewire/assets/22793175/44ae1a18-8d1b-430e-a6b6-f757bd2e2886)
-
 ![image](https://github.com/carterror/privatewire/assets/22793175/8cfe3be9-60f6-4a59-a14f-c9449587e717)
 
 
